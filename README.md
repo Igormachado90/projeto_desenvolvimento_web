@@ -394,15 +394,5 @@ mantendo a referência ao repositório original.
     </td>
   </tr>
    <br />
-     <tr>
-    <td align="center">
-      <a href="https://github.com/AlineCely">
-        <img src="https://github.com/AlineCely.png" width="100px" alt="Aline Cely"/>
-        <br />
-        <sub><b>Aline Cely</b></sub>
-        <br />
-      </a>
-    </td>
-  </tr>
 </table>
 
