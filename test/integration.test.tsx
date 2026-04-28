@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { supabase } from '@/lib/supabase';
 
@@ -38,7 +39,7 @@ vi.mock('@/components/Dashboard/Settings/SettingsView', () => ({
 }));
 
 // Provide React to the global scope for the mocks above
-(window as any).React = require('react');
+(window as any).React = React;
 
 describe('VínculoTEAFull Integration Tests', () => {
     beforeEach(() => {
