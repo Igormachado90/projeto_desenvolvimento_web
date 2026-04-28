@@ -85,3 +85,14 @@ metadata.json
 skills-lock.json
 brain/
 .agent/
+scratch/
+
+# =====================
+# Outros
+# =====================
+.vercel
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+tmp/
+temp/
