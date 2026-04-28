@@ -1,4 +1,13 @@
+import { expect } from 'vitest';
+import * as matchers from '@testing-library/jest-dom/matchers';
+import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
 import '@testing-library/jest-dom';
+
+declare module 'vitest' {
+  interface Assertion<T = any> extends TestingLibraryMatchers<T, void> {}
+}
+
+expect.extend(matchers);
 import { vi, beforeAll, afterAll, afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
