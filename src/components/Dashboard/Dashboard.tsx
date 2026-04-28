@@ -4,7 +4,7 @@ import {
   Moon, Sun, GraduationCap, ArrowRight, BookOpen, 
   Rocket, LogOut, CheckCircle, MoreHorizontal, PlusCircle,
   Briefcase, AlertCircle, TrendingUp, X, Activity,
-  Clock
+  Clock, Shield
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import { supabase } from '../../lib/supabase';
@@ -280,8 +280,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ user: authUser, onLogout }
     ...(permissions?.canViewDisciplines ? [{ id: 'discipline', label: 'Disciplinas', icon: BookOpen }] : []),
     ...(permissions?.canViewReports ? [{ id: 'reports', label: 'Relatórios', icon: FileText }] : []),
     { id: 'help', label: 'Central de Ajuda', icon: Rocket },
-    ...(permissions?.canViewSettings ? [{ id: 'settings', label: 'Ajustes', icon: Settings }] : []),
-    ...(permissions?.canManageUsers ? [{ id: 'admin', label: 'Admin Local', icon: Settings }] : []),
+    ...(permissions?.canViewSettings ? [{ id: 'settings', label: 'Ajustes de Perfil', icon: Settings }] : []),
+    ...(permissions?.canManageUsers ? [{ id: 'admin', label: 'Painel Administrativo', icon: Shield }] : []),
   ];
 
 

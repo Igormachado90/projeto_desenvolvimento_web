@@ -26,6 +26,7 @@ import {
 import styles from './AdminView.module.css';
 
 import { usersService, authClient } from '../../../lib/usersService';
+import { useAuth } from '../../../lib/useAuth';
 
 type UserProfile = {
   Plataforma_ID: null;
@@ -52,15 +53,17 @@ type Plan = {
   descricao?: string;
 };
 
-type Tab = 'usuarios' | 'stats' | 'planos' | 'relatorios' | 'config';
+type Tab = 'usuarios' | 'stats' | 'planos' | 'relatorios' | 'config' | 'config_unidade';
 
 export const AdminView = () => {
+  const { user: currentUser, permissions } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('usuarios');
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isAddingPlan, setIsAddingPlan] = useState(false);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [plans, setPlans] = useState<Plan[]>([]);
+  const [schools, setSchools] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -76,7 +79,11 @@ export const AdminView = () => {
     const init = async () => {
       await fetchPlans();
       await fetchUsers();
+      await fetchSchools();
       await fetchConfigs();
+      if (currentUser?.tipo === 'GESTOR' && currentUser?.escola_id) {
+        fetchSchoolSettings();
+      }
     };
     init();
   }, []);
@@ -105,6 +112,8 @@ export const AdminView = () => {
     clientesPorPlano: [] as any[],
     recentes: [] as any[]
   });
+
+  const [schoolSettings, setSchoolSettings] = useState<any>(null);
 
   const [configs, setConfigs] = useState({
     id: 1,
@@ -137,6 +146,49 @@ export const AdminView = () => {
       console.error('Erro ao buscar configuracoes_globais:', e);
     }
   };
+
+  const fetchSchoolSettings = async () => {
+    if (!currentUser?.escola_id) return;
+    try {
+      const { data, error } = await supabase
+        .from('Escolas')
+        .select('*')
+        .eq('Escola_ID', currentUser.escola_id)
+        .single();
+      if (error) throw error;
+      setSchoolSettings(data);
+    } catch (e) {
+      console.error('Erro ao buscar escola:', e);
+    }
+  };
+
+  const handleUpdateSchoolSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!schoolSettings || !currentUser?.escola_id) return;
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from('Escolas')
+        .update({
+          Nome: schoolSettings.Nome,
+          Razao_Social: schoolSettings.Razao_Social,
+          CNPJ: schoolSettings.CNPJ,
+          Telefone: schoolSettings.Telefone,
+          Endereco: schoolSettings.Endereco,
+          Logo: schoolSettings.Logo
+        })
+        .eq('Escola_ID', currentUser.escola_id);
+      
+      if (error) throw error;
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+      alert('Configurações da unidade salvas com sucesso!');
+    } catch (e: any) {
+      alert('Erro ao salvar: ' + e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   const fetchPlans = async () => {
@@ -149,13 +201,36 @@ export const AdminView = () => {
     }
   };
 
+  const fetchSchools = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('Escolas')
+        .select('*')
+        .order('Nome', { ascending: true });
+      if (error) throw error;
+      setSchools(data || []);
+    } catch (error) {
+      console.error('Erro ao buscar escolas:', error);
+    }
+  };
+
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('Usuarios')
         .select('*, planos(*)')
         .order('Nome', { ascending: true });
+
+      // Isola os dados por escola para Gestores/Diretores
+      if (currentUser?.tipo === 'GESTOR' && currentUser?.escola_id) {
+        query = query.eq('Escola_ID', currentUser.escola_id);
+      } else if (!permissions?.canViewAllSchools && currentUser?.plataforma_id) {
+        // Se não for admin global, filtra pela plataforma
+        query = query.eq('Plataforma_ID', currentUser.plataforma_id);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       setUsers(data || []);
@@ -168,12 +243,25 @@ export const AdminView = () => {
 
   const fetchStats = async () => {
     try {
-      // 1. Total Alunos
-      const { count: alunosCount } = await supabase.from('Alunos').select('*', { count: 'exact', head: true });
+      // 1. Total Alunos (Filtrado por Escola se for Gestor)
+      let alunosQuery = supabase.from('Alunos').select('*', { count: 'exact', head: true });
+      if (currentUser?.tipo === 'GESTOR' && currentUser?.escola_id) {
+        alunosQuery = alunosQuery.eq('Escola_ID', currentUser.escola_id);
+      } else if (currentUser?.plataforma_id) {
+        alunosQuery = alunosQuery.eq('Plataforma_ID', currentUser.plataforma_id);
+      }
+      const { count: alunosCount } = await alunosQuery;
       setTotalAlunos(alunosCount || 0);
 
       // 2. Usuarios e Receita
-      const { data: usersData } = await supabase.from('Usuarios').select('*, planos(valor_mensal)');
+      let usersQuery = supabase.from('Usuarios').select('*, planos(valor_mensal)');
+      if (currentUser?.tipo === 'GESTOR' && currentUser?.escola_id) {
+        usersQuery = usersQuery.eq('Escola_ID', currentUser.escola_id);
+      } else if (currentUser?.plataforma_id) {
+        usersQuery = usersQuery.eq('Plataforma_ID', currentUser.plataforma_id);
+      }
+      const { data: usersData } = await usersQuery;
+      
       const gestores = usersData?.filter(u => u.Tipo === 'GESTOR' || u.Tipo === 'Administrador' || u.Tipo === 'PROFISSIONAL') || [];
 
       const receita = gestores.reduce((acc, curr) => {
@@ -240,7 +328,8 @@ export const AdminView = () => {
           Tipo: formData.tipo,
           Plano_ID: formData.plano_id || null,
           Status: 'Ativo',
-          Plataforma_ID: users[0]?.Plataforma_ID || null
+          Plataforma_ID: currentUser?.plataforma_id || users[0]?.Plataforma_ID || null,
+          Escola_ID: currentUser?.tipo === 'GESTOR' ? currentUser?.escola_id : (formData.escola_id ? parseInt(formData.escola_id) : null)
         };
 
         const { error } = await supabase.from('Usuarios').insert([payload]);
@@ -382,12 +471,15 @@ export const AdminView = () => {
     }
   };
 
+  const isGlobalAdmin = permissions?.canViewAllSchools;
+
   const tabs = [
     { id: 'usuarios' as const, label: 'Usuários', icon: Users },
-    { id: 'planos' as const, label: 'Planos SaaS', icon: Zap },
-    { id: 'stats' as const, label: 'Estatísticas', icon: BarChart3 },
-    { id: 'relatorios' as const, label: 'Relatórios do Sistema', icon: ClipboardList },
-    { id: 'config' as const, label: 'Configurações', icon: Settings },
+    ...(isGlobalAdmin ? [{ id: 'planos' as const, label: 'Planos SaaS', icon: Zap }] : []),
+    { id: 'stats' as const, label: isGlobalAdmin ? 'Estatísticas Globais' : 'Estatísticas da Unidade', icon: BarChart3 },
+    ...(isGlobalAdmin ? [{ id: 'relatorios' as const, label: 'Relatórios do Sistema', icon: ClipboardList }] : []),
+    ...(isGlobalAdmin ? [{ id: 'config' as const, label: 'Configurações', icon: Settings }] : []),
+    { id: 'config_unidade' as const, label: 'Configurações da Unidade', icon: Settings },
   ];
 
   return (
@@ -846,6 +938,127 @@ export const AdminView = () => {
           </div>
         )}
 
+        {activeTab === 'config_unidade' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className={styles.headerRow} style={{ marginBottom: '2rem' }}>
+              <h2 className={styles.titleMain}>Configurações da <span className={styles.titleHighlight}>Unidade</span></h2>
+              <p className={styles.titleSub}>Personalize os dados da sua instituição para relatórios e cabeçalhos PDF</p>
+            </div>
+
+            <div className={styles.configGrid}>
+              <div className={styles.configCardMain}>
+                <div className={styles.cardHeader}>
+                  <div className={styles.statIcon} style={{ background: '#00418310', color: '#004183' }}>
+                    <Shield size={20} />
+                  </div>
+                  <div>
+                    <h3 className={styles.cardTitle}>Identidade Institucional</h3>
+                    <p className={styles.configDesc}>Estes dados controlam a marca da sua escola em relatórios, PEIs e documentos exportados.</p>
+                  </div>
+                </div>
+
+                {schoolSettings ? (
+                  <form onSubmit={handleUpdateSchoolSettings} style={{ marginTop: '2rem' }}>
+                    <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '1.5rem', border: '1px dashed #cbd5e1', marginBottom: '2rem' }}>
+                      <p style={{ fontSize: '0.65rem', fontWeight: 900, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem' }}>Prévia do Cabeçalho PDF</p>
+                      <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                        {schoolSettings.Logo ? (
+                          <img src={schoolSettings.Logo} alt="Logo" style={{ height: '50px', maxWidth: '120px', objectFit: 'contain' }} />
+                        ) : (
+                          <div style={{ height: '50px', width: '50px', background: '#e2e8f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyCenter: 'center', fontSize: '10px', color: '#94a3b8' }}>LOGO</div>
+                        )}
+                        <div style={{ borderLeft: '2px solid #e2e8f0', paddingLeft: '1.5rem' }}>
+                          <h4 style={{ margin: 0, color: '#0f172a', fontSize: '1rem', fontWeight: 700 }}>{schoolSettings.Nome || 'NOME DA INSTITUIÇÃO'}</h4>
+                          <p style={{ margin: 0, fontSize: '0.7rem', color: '#64748b' }}>{schoolSettings.Endereco || 'Endereço não configurado'}</p>
+                          <p style={{ margin: 0, fontSize: '0.7rem', color: '#64748b' }}>CNPJ: {schoolSettings.CNPJ || '00.000.000/0000-00'} | Tel: {schoolSettings.Telefone || '(00) 00000-0000'}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className={styles.gridForm}>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Nome da Escola (Fantasia) *</label>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          required
+                          value={schoolSettings.Nome || ''}
+                          onChange={(e) => setSchoolSettings({ ...schoolSettings, Nome: e.target.value })}
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Razão Social</label>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          value={schoolSettings.Razao_Social || ''}
+                          onChange={(e) => setSchoolSettings({ ...schoolSettings, Razao_Social: e.target.value })}
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>CNPJ</label>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          placeholder="00.000.000/0000-00"
+                          value={schoolSettings.CNPJ || ''}
+                          onChange={(e) => setSchoolSettings({ ...schoolSettings, CNPJ: e.target.value })}
+                        />
+                      </div>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Telefone de Contato</label>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          placeholder="(00) 00000-0000"
+                          value={schoolSettings.Telefone || ''}
+                          onChange={(e) => setSchoolSettings({ ...schoolSettings, Telefone: e.target.value })}
+                        />
+                      </div>
+                      <div className={`${styles.formGroup} ${styles.formGroupFull}`}>
+                        <label className={styles.label}>Endereço Completo</label>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          placeholder="Rua, Número, Bairro, Cidade - UF"
+                          value={schoolSettings.Endereco || ''}
+                          onChange={(e) => setSchoolSettings({ ...schoolSettings, Endereco: e.target.value })}
+                        />
+                      </div>
+                      <div className={`${styles.formGroup} ${styles.formGroupFull}`}>
+                        <label className={styles.label}>URL da Logomarca (PNG/JPG)</label>
+                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                          <input
+                            type="text"
+                            className={styles.input}
+                            style={{ flex: 1 }}
+                            placeholder="https://sua-escola.com/logo.png"
+                            value={schoolSettings.Logo || ''}
+                            onChange={(e) => setSchoolSettings({ ...schoolSettings, Logo: e.target.value })}
+                          />
+                          {schoolSettings.Logo && (
+                            <div style={{ width: '50px', height: '50px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #eee' }}>
+                              <img src={schoolSettings.Logo} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className={styles.actions} style={{ marginTop: '2rem', borderTop: '1px solid #f1f5f9', paddingTop: '2rem' }}>
+                      <button type="submit" className={styles.btnPrimary} disabled={loading}>
+                        {loading ? 'Salvando...' : 'Salvar Dados da Unidade'}
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>Carregando dados da unidade...</div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Mantendo os modais existentes */}
         {isAddingUser && (
           <div className={styles.modalOverlay}>
@@ -885,25 +1098,44 @@ export const AdminView = () => {
                       value={formData.tipo}
                       onChange={(e) => setFormData({ ...formData, tipo: e.target.value })}
                     >
-                      <option>Administrador</option>
-                      <option>Gestor</option>
-                      <option>Profissional</option>
-                      <option>Família</option>
+                      {isGlobalAdmin && <option value="Administrador">Administrador Global</option>}
+                      <option value="Gestor">Diretor / Coordenador</option>
+                      <option value="Profissional">Profissional / Professor</option>
+                      <option value="Tutor">Tutor / Auxiliar</option>
+                      <option value="Família">Família / Responsável</option>
                     </select>
                   </div>
-                  <div className={styles.formGroup}>
-                    <label className={styles.label}>Plano do Usuário</label>
-                    <select
-                      className={styles.input}
-                      value={formData.plano_id}
-                      onChange={(e) => setFormData({ ...formData, plano_id: e.target.value })}
-                    >
-                      <option value="">Selecione um plano...</option>
-                      {plans.map(p => (
-                        <option key={p.plano_id} value={p.plano_id}>{p.nome}</option>
-                      ))}
-                    </select>
-                  </div>
+                  {isGlobalAdmin && (
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Plano do Usuário</label>
+                      <select
+                        className={styles.input}
+                        value={formData.plano_id}
+                        onChange={(e) => setFormData({ ...formData, plano_id: e.target.value })}
+                      >
+                        <option value="">Selecione um plano...</option>
+                        {plans.map(p => (
+                          <option key={p.plano_id} value={p.plano_id}>{p.nome}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {isGlobalAdmin && (
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Unidade Escolar</label>
+                      <select
+                        className={styles.input}
+                        value={formData.escola_id}
+                        onChange={(e) => setFormData({ ...formData, escola_id: e.target.value })}
+                      >
+                        <option value="">Plataforma Global (Sem Unidade)</option>
+                        {schools.map(s => (
+                          <option key={s.Escola_ID} value={s.Escola_ID}>{s.Nome}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
 
                   <div className={styles.formGroup}>
                     <label className={styles.label}>Senha Inicial *</label>

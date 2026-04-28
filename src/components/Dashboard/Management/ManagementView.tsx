@@ -57,7 +57,7 @@ export const ManagementView = () => {
     };
 
     const tabs = [
-        ...(permissions?.canEditSchools ? [{ id: 'escolas' as const, label: 'Unidades', icon: Building2, desc: 'Gerencie suas unidades parceiras' }] : []),
+        ...(permissions?.canViewAllSchools ? [{ id: 'escolas' as const, label: 'Unidades', icon: Building2, desc: 'Gerencie suas unidades parceiras' }] : []),
         { id: 'professores' as const, label: 'Docentes', icon: GraduationCap, desc: 'Gestão de professores e educadores' },
         { id: 'profissionais' as const, label: 'Especialistas', icon: Users, desc: 'Profissionais de saúde e apoio' },
         { id: 'turmas' as const, label: 'Turmas', icon: BookOpen, desc: 'Controle de turmas e classes' },
