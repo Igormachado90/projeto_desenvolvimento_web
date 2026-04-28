@@ -19,7 +19,8 @@
     "types": [
       "vite/client",
       "vitest",
-      "@testing-library/jest-dom/vitest"
+      "@testing-library/jest-dom/vitest",
+      "@testing-library/react"
     ],
     "moduleResolution": "bundler",
     "isolatedModules": true,

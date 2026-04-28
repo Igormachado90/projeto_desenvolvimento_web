@@ -19,7 +19,7 @@ afterEach(() => {
 
 // Mock Supabase
 let authChangeCallback: any = null;
-vi.mock('@/lib/supabase', () => ({
+vi.mock('../src/lib/supabase', () => ({
     supabase: {
         auth: {
             getSession: vi.fn(() => Promise.resolve({ data: { session: null }, error: null })),

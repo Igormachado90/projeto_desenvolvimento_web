@@ -1,15 +1,16 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import * as RTL from '@testing-library/react';
+const { render, screen, fireEvent, waitFor } = RTL;
 import '@testing-library/jest-dom';
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../src/lib/supabase';
 
 // Mock views to avoid complex child rendering and focus on integration of the Dashboard shell
-vi.mock('@/components/MarketingSection/MarketingSection', () => ({
+vi.mock('../src/components/MarketingSection/MarketingSection', () => ({
     default: () => <div data-testid="marketing-section">Marketing</div>
 }));
 
-vi.mock('@/components/Dashboard/Gerenciamento/GerenciamentoView', () => ({
+vi.mock('../src/components/Dashboard/Gerenciamento/GerenciamentoView', () => ({
     GerenciamentoView: () => {
         const [tab, setTab] = (window as any).React.useState('escolas');
         return (
@@ -26,7 +27,7 @@ vi.mock('@/components/Dashboard/Gerenciamento/GerenciamentoView', () => ({
     }
 }));
 
-vi.mock('@/components/Dashboard/Settings/SettingsView', () => ({
+vi.mock('../src/components/Dashboard/Settings/SettingsView', () => ({
     SettingsView: () => {
         const [tab, setTab] = (window as any).React.useState('general');
         return (
@@ -47,7 +48,7 @@ describe('VínculoTEAFull Integration Tests', () => {
         vi.resetAllMocks();
 
         // Default mock for useAuth
-        vi.mock('@/lib/useAuth', () => ({
+        vi.mock('../src/lib/useAuth', () => ({
             useAuth: () => ({
                 user: { id: 'u123', nome: 'Admin User', email: 'admin@test.com', tipo: 'Administrador', plataforma_id: 1 },
                 permissions: {
@@ -89,7 +90,7 @@ describe('VínculoTEAFull Integration Tests', () => {
 
     describe('Environment & Core', () => {
         it('renders the Dashboard shell for an authenticated user', async () => {
-            const { Dashboard } = await import('@/components/Dashboard/Dashboard');
+            const Dashboard = (window as any).React.lazy(() => import('../src/components/Dashboard/Dashboard'));
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com', role: 'ADMINISTRADOR' }} onLogout={vi.fn()} />);
 
             expect(screen.getByText(/Seja bem vindo/i)).toBeInTheDocument();
@@ -100,7 +101,7 @@ describe('VínculoTEAFull Integration Tests', () => {
 
     describe('Student Gerenciamento UI', () => {
         it('opens the Student Registration Wizard', async () => {
-            const { Dashboard } = await import('@/components/Dashboard/Dashboard');
+            const { Dashboard } = await import('../src/components/Dashboard/Dashboard');
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com', role: 'ADMINISTRADOR' }} onLogout={vi.fn()} />);
 
             // Click "Alunos" in sidebar (using find to handle multi-render if any)
@@ -122,7 +123,7 @@ describe('VínculoTEAFull Integration Tests', () => {
 
     describe('Gerenciamento & Settings Navigation', () => {
         it('navigates through Gerenciamento tabs (Schools, Teachers, Classes)', async () => {
-            const { Dashboard } = await import('@/components/Dashboard/Dashboard');
+            const { Dashboard } = await import('../src/components/Dashboard/Dashboard');
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com', role: 'ADMINISTRADOR' }} onLogout={vi.fn()} />);
 
             const mgmtBtn = await screen.findAllByRole('button', { name: /Gerenciamento/i });
@@ -151,7 +152,7 @@ describe('VínculoTEAFull Integration Tests', () => {
         }, 20000);
 
         it('navigates to Settings and User Gerenciamento', async () => {
-            const { Dashboard } = await import('@/components/Dashboard/Dashboard');
+            const { Dashboard } = await import('../src/components/Dashboard/Dashboard');
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com' }} onLogout={vi.fn()} />);
 
             const settingsBtn = await screen.findAllByRole('button', { name: /Ajustes/i });
@@ -170,7 +171,7 @@ describe('VínculoTEAFull Integration Tests', () => {
 
     describe('Global Features', () => {
         it('triggers Search Modal with Ctrl+K', async () => {
-            const { Dashboard } = await import('@/components/Dashboard/Dashboard');
+            const { Dashboard } = await import('../src/components/Dashboard/Dashboard');
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com' }} onLogout={vi.fn()} />);
 
             fireEvent.keyDown(window, { key: 'k', ctrlKey: true });
@@ -181,7 +182,7 @@ describe('VínculoTEAFull Integration Tests', () => {
         });
 
         it('shows and hides Notification center', async () => {
-            const { Dashboard } = await import('@/components/Dashboard/Dashboard');
+            const { Dashboard } = await import('../src/components/Dashboard/Dashboard');
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com' }} onLogout={vi.fn()} />);
 
             const bellBtn = screen.getByTestId('notification-bell');
