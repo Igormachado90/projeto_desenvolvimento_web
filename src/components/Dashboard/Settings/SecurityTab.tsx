@@ -100,7 +100,7 @@ export const SecurityTab = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="px-10 py-4 rounded-2xl bg-primary text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+                            className="px-10 py-4 rounded-2xl bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
                         >
                             {isLoading ? <Loader2 className="animate-spin" size={16} /> : 'Atualizar Credenciais'}
                         </button>

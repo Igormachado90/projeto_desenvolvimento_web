@@ -717,13 +717,13 @@ export const ReportsView = () => {
                     <div className="flex items-center gap-4 mt-2">
                         <button
                             onClick={() => setActiveTab('general')}
-                            className={`text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full transition-all ${activeTab === 'general' ? 'bg-primary text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}
+                            className={`text-xs font-black uppercase tracking-widest px-6 py-2.5 rounded-full transition-all duration-300 ${activeTab === 'general' ? 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-xl shadow-blue-500/20' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
                         >
                             Relatório Geral
                         </button>
                         <button
                             onClick={() => setActiveTab('individual')}
-                            className={`text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full transition-all ${activeTab === 'individual' ? 'bg-primary text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}
+                            className={`text-xs font-black uppercase tracking-widest px-6 py-2.5 rounded-full transition-all duration-300 ${activeTab === 'individual' ? 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-xl shadow-blue-500/20' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
                         >
                             Relatório por Aluno
                         </button>
@@ -756,9 +756,9 @@ export const ReportsView = () => {
                     <button
                         onClick={activeTab === 'general' ? handleExportGeneralPDF : handleExportIndividualPDF}
                         disabled={loading || (activeTab === 'individual' && !selectedStudentId)}
-                        className="flex items-center gap-3 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 transition-all disabled:opacity-50 disabled:scale-100"
+                        className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#004183] to-[#cce5ff] dark:from-white dark:to-slate-100 text-white dark:text-slate-900 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-105 hover:shadow-blue-500/20 transition-all disabled:opacity-50 disabled:scale-100 group"
                     >
-                        <Download size={18} strokeWidth={3} />
+                        <Download size={18} strokeWidth={3} className="group-hover:bounce" />
                         {activeTab === 'general' ? 'Exportar Atividades' : 'Exportar PDF'}
                     </button>
                 </div>
@@ -876,9 +876,9 @@ const IndividualReportView = ({
                         <button
                             key={student.Aluno_ID}
                             onClick={() => setSelectedStudentId(student.Aluno_ID.toString())}
-                            className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-sm transition-all whitespace-nowrap border-2 ${selectedStudentId === student.Aluno_ID.toString()
-                                ? 'bg-primary border-primary text-white shadow-xl shadow-primary/20 scale-105'
-                                : 'bg-slate-50 dark:bg-slate-900/50 border-transparent text-slate-600 dark:text-slate-400 hover:border-primary/30'
+                            className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-black text-sm transition-all whitespace-nowrap border-2 ${selectedStudentId === student.Aluno_ID.toString()
+                                ? 'bg-gradient-to-r from-[#004183] to-[#cce5ff] border-transparent text-white shadow-xl shadow-indigo-500/20 scale-105'
+                                : 'bg-slate-50 dark:bg-slate-900/50 border-transparent text-slate-600 dark:text-slate-400 hover:border-[#004183]/30'
                                 }`}
                         >
                             <User size={18} />
@@ -891,28 +891,28 @@ const IndividualReportView = ({
                     <div className="flex gap-2 mt-6 border-t border-slate-50 dark:border-slate-700 pt-6">
                         <button
                             onClick={() => setIndividualTab('attendance')}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${individualTab === 'attendance' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-slate-100 text-slate-400 dark:bg-slate-700'}`}
+                            className={`flex items-center gap-2 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${individualTab === 'attendance' ? 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-lg' : 'bg-slate-50 text-slate-400 dark:bg-slate-900/50'}`}
                         >
                             <CheckCircle2 size={14} />
                             Acompanhamento
                         </button>
                         <button
                             onClick={() => setIndividualTab('home_activities')}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${individualTab === 'home_activities' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-slate-100 text-slate-400 dark:bg-slate-700'}`}
+                            className={`flex items-center gap-2 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${individualTab === 'home_activities' ? 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-lg' : 'bg-slate-50 text-slate-400 dark:bg-slate-900/50'}`}
                         >
                             <LayoutDashboard size={14} />
                             Atividades Casa
                         </button>
                         <button
                             onClick={() => setIndividualTab('evolution')}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${individualTab === 'evolution' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-slate-100 text-slate-400 dark:bg-slate-700'}`}
+                            className={`flex items-center gap-2 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${individualTab === 'evolution' ? 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-lg' : 'bg-slate-50 text-slate-400 dark:bg-slate-900/50'}`}
                         >
                             <TrendingUp size={14} />
                             Evolução Semestral
                         </button>
                         <button
                             onClick={() => setIndividualTab('school_guidance')}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${individualTab === 'school_guidance' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-slate-100 text-slate-400 dark:bg-slate-700'}`}
+                            className={`flex items-center gap-2 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${individualTab === 'school_guidance' ? 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-lg' : 'bg-slate-50 text-slate-400 dark:bg-slate-900/50'}`}
                         >
                             <User size={14} />
                             Inclusão Escolar
@@ -1148,25 +1148,34 @@ const EvolutionReport = ({ student, data }: any) => {
         </div>
     );
 };
+
 const HomeActivitiesReport = ({ student, notes }: any) => {
     return (
         <div className="space-y-10 animate-in fade-in duration-700 slide-in-from-bottom-6">
             <div className="bg-white dark:bg-slate-800 rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden group hover:shadow-2xl hover:shadow-indigo-500/5 transition-all">
                 <div className="p-10 border-b border-slate-50 dark:border-slate-700 bg-slate-50/30 dark:bg-slate-900/20 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="flex items-center gap-6">
-                        <div className="size-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 shadow-inner">
-                            <LayoutDashboard size={32} />
-                        </div>
-                        <div>
-                            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Feedback Familiar</h3>
-                            <h4 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Atividades Casa e Orientações Domiciliares</h4>
-                        </div>
+                    <div className="flex items-center gap-6 text-slate-900 dark:text-white uppercase tracking-tight font-black">
+                        <Users size={20} className="text-primary" />
+                        IDENTIFICAÇÃO: {student.Nome}
                     </div>
                     <span className="text-[10px] font-black text-indigo-500 bg-indigo-500/10 px-6 py-3 rounded-full uppercase tracking-widest border border-indigo-500/10">
                         {notes.length} REGISTROS ENCONTRADOS
                     </span>
                 </div>
                 <div className="p-10">
+                    <div className="bg-slate-50/50 dark:bg-slate-900/40 p-10 rounded-[2.5rem] mb-10 border border-slate-100 dark:border-slate-700">
+                        <div className="flex flex-col md:flex-row gap-8">
+                             <div className="flex-1">
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Ano Letivo</span>
+                                <p className="text-3xl font-black text-slate-900 dark:text-white">2026</p>
+                             </div>
+                             <div className="flex-1">
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Data de Nascimento</span>
+                                <p className="text-xl font-bold text-slate-600 dark:text-slate-300">{new Date(student.Data_nascimento).toLocaleDateString('pt-BR')}</p>
+                             </div>
+                        </div>
+                    </div>
+
                     {notes.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {notes.map((note: any) => (
@@ -1332,7 +1341,7 @@ const EmptyState = () => (
 );
 
 const SummaryCard = ({ icon: Icon, label, value, color, bg, gradient }: any) => (
-    <div className="bg-white dark:bg-slate-800 p-10 rounded-[3.5rem] border-[1.5px] border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group overflow-hidden relative">
+    <div className="bg-white dark:bg-slate-800 p-10 rounded-[30px] border-2 border-slate-100/50 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-[#004183]/5 hover:-translate-y-2 transition-all duration-500 group overflow-hidden relative">
         <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
 
         <div className="flex justify-between items-start mb-10 relative z-10">

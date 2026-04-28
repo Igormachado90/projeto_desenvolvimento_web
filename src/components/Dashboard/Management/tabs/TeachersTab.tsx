@@ -153,184 +153,6 @@ export const TeachersTab = ({ onUpdate, category }: { onUpdate?: () => void; cat
         return matchesSearch && matchesCategory;
     });
 
-    if (isCreating) {
-        return (
-            <div className="animate-in fade-in slide-in-from-right-4 duration-500 space-y-8">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight italic">
-                            {editingTeacher ? 'Editar' : 'Novo'} <span className="text-primary">Professor</span>
-                        </h2>
-                        <p className="text-xs font-medium text-slate-500">
-                            {editingTeacher ? 'Atualize os dados do especialista' : 'Cadastre um novo especialista na rede'}
-                        </p>
-                    </div>
-                    <button onClick={() => { setIsCreating(false); setEditingTeacher(null); }} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-red-50 hover:text-red-500 transition-all">
-                        <X size={20} />
-                    </button>
-                </div>
-
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nome *</label>
-                        <input
-                            type="text"
-                            name="nome"
-                            value={formData.nome}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Nome do professor."
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Categoria *</label>
-                        <select
-                            name="categoria"
-                            value={formData.categoria}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                        >
-                            <option value="Professor">Docente (Professor)</option>
-                            <option value="Profissional de Saúde">Especialista (Saúde/Terapia)</option>
-                            <option value="Tutor">Tutor / Assistente</option>
-                        </select>
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Email *</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Email do profissional."
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Telefone</label>
-                        <input
-                            type="text"
-                            name="telefone"
-                            value={formData.telefone}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="(00) 00000-0000"
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Registro Profissional</label>
-                        <input
-                            type="text"
-                            name="registro"
-                            value={formData.registro}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="CRM, CRP, etc."
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">CID</label>
-                        <input
-                            type="text"
-                            name="cid"
-                            value={formData.cid}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Opcional."
-                        />
-                    </div>
-
-                    {!editingTeacher && (
-                        <div className="space-y-2">
-                            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Senha *</label>
-                            <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                                <input
-                                    type="password"
-                                    name="senha"
-                                    value={formData.senha}
-                                    onChange={handleChange}
-                                    required
-                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                                    placeholder="Senha do professor."
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Escola *</label>
-                        <select
-                            name="escola_id"
-                            value={formData.escola_id || (authUser?.tipo !== 'Administrador' ? authUser?.escola_id : '')}
-                            onChange={handleChange}
-                            required
-                            disabled={authUser?.tipo !== 'Administrador'}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none appearance-none disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
-                            <option value="">Selecione uma escola</option>
-                            {schools.map(s => <option key={s.id} value={s.id}>{s.nome || s.Nome}</option>)}
-                        </select>
-                        <p className="text-[10px] text-slate-400 font-medium ml-1">
-                            {authUser?.tipo !== 'Administrador' ? 'Vinculado automaticamente à sua unidade.' : 'Selecione a unidade para vincular o profissional.'}
-                        </p>
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Avatar</label>
-                        <div className="relative">
-                            <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                            <input
-                                type="text"
-                                name="avatar"
-                                value={formData.avatar}
-                                onChange={handleChange}
-                                className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                                placeholder="Url da imagem ou gif..."
-                            />
-                        </div>
-                        <p className="text-[10px] text-slate-400 font-medium ml-1">Avatar do professor.</p>
-                    </div>
-
-                    <div className="md:col-span-2 p-6 bg-primary/5 rounded-[2.5rem] border border-primary/10 flex items-start gap-4 transition-all hover:bg-primary/10">
-                        <div className="pt-1">
-                            <input
-                                type="checkbox"
-                                id="isAEE"
-                                name="isAEE"
-                                checked={formData.isAEE}
-                                onChange={handleChange}
-                                className="size-5 rounded-lg border-2 border-primary text-primary focus:ring-primary h-5 w-5"
-                            />
-                        </div>
-                        <label htmlFor="isAEE" className="cursor-pointer select-none">
-                            <span className="block font-black text-sm text-slate-900 dark:text-white uppercase tracking-tighter">Professor AEE</span>
-                            <span className="block text-xs text-slate-500 font-medium mt-1">Professores AEE são responsáveis por gerenciar os alunos AEE.</span>
-                        </label>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4 pt-6 md:col-span-2 border-t border-slate-50 dark:border-slate-800">
-                        <button type="button" onClick={() => { setIsCreating(false); setEditingTeacher(null); }} className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-200 transition-all">Cancelar</button>
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest bg-primary text-white shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                        >
-                            {isLoading ? <Loader2 className="animate-spin" size={18} /> : (editingTeacher ? 'Salvar Alterações' : 'Adicionar novo')}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        );
-    }
 
     return (
         <div className="animate-in fade-in slide-in-from-left-4 duration-500 space-y-8">
@@ -347,7 +169,7 @@ export const TeachersTab = ({ onUpdate, category }: { onUpdate?: () => void; cat
                 </div>
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-black text-xs uppercase tracking-widest hover:scale-[1.05] shadow-xl transition-all"
+                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white font-black text-xs uppercase tracking-widest hover:scale-[1.05] shadow-xl hover:shadow-primary/40 transition-all border-none cursor-pointer"
                 >
                     <Plus size={18} strokeWidth={3} />
                     Novo Profissional
@@ -475,6 +297,184 @@ export const TeachersTab = ({ onUpdate, category }: { onUpdate?: () => void; cat
                                 {isLoading ? <Loader2 className="animate-spin" size={16} /> : 'Excluir'}
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+            { }
+            {isCreating && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 dark:border-slate-800 animate-in zoom-in-95 duration-300">
+                        <div className="flex justify-between items-center mb-8">
+                            <div>
+                                <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight italic">
+                                    {editingTeacher ? 'Editar' : 'Novo'} <span className="text-primary">Profissional</span>
+                                </h2>
+                                <p className="text-xs font-medium text-slate-500">
+                                    {editingTeacher ? 'Atualize os dados do profissional' : 'Cadastre um novo profissional na rede'}
+                                </p>
+                            </div>
+                            <button onClick={() => { setIsCreating(false); setEditingTeacher(null); }} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-red-50 hover:text-red-500 transition-all">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nome *</label>
+                                <input
+                                    type="text"
+                                    name="nome"
+                                    value={formData.nome}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Nome do profissional."
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Categoria *</label>
+                                <select
+                                    name="categoria"
+                                    value={formData.categoria}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                >
+                                    <option value="Professor">Docente (Professor)</option>
+                                    <option value="Profissional de Saúde">Especialista (Saúde/Terapia)</option>
+                                    <option value="Tutor">Tutor / Assistente</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Email *</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Email do profissional."
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Telefone</label>
+                                <input
+                                    type="text"
+                                    name="telefone"
+                                    value={formData.telefone}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="(00) 00000-0000"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Registro Profissional</label>
+                                <input
+                                    type="text"
+                                    name="registro"
+                                    value={formData.registro}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="CRM, CRP, etc."
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">CID</label>
+                                <input
+                                    type="text"
+                                    name="cid"
+                                    value={formData.cid}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Opcional."
+                                />
+                            </div>
+
+                            {!editingTeacher && (
+                                <div className="space-y-2">
+                                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Senha *</label>
+                                    <div className="relative">
+                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                                        <input
+                                            type="password"
+                                            name="senha"
+                                            value={formData.senha}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                            placeholder="Senha de acesso inicial."
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Escola *</label>
+                                <select
+                                    name="escola_id"
+                                    value={formData.escola_id || (authUser?.tipo !== 'Administrador' ? authUser?.escola_id : '')}
+                                    onChange={handleChange}
+                                    required
+                                    disabled={authUser?.tipo !== 'Administrador'}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none appearance-none disabled:opacity-70 disabled:cursor-not-allowed"
+                                >
+                                    <option value="">Selecione uma escola</option>
+                                    {schools.map(s => <option key={s.id} value={s.id}>{s.nome || s.Nome}</option>)}
+                                </select>
+                                <p className="text-[10px] text-slate-400 font-medium ml-1">
+                                    {authUser?.tipo !== 'Administrador' ? 'Vinculado automaticamente à sua unidade.' : 'Selecione a unidade para vincular o profissional.'}
+                                </p>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Avatar</label>
+                                <div className="relative">
+                                    <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                                    <input
+                                        type="text"
+                                        name="avatar"
+                                        value={formData.avatar}
+                                        onChange={handleChange}
+                                        className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl pl-12 pr-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                        placeholder="Url da imagem ou gif..."
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="md:col-span-2 p-6 bg-primary/5 rounded-[2.5rem] border border-primary/10 flex items-start gap-4 transition-all hover:bg-primary/10">
+                                <div className="pt-1">
+                                    <input
+                                        type="checkbox"
+                                        id="isAEE"
+                                        name="isAEE"
+                                        checked={formData.isAEE}
+                                        onChange={handleChange}
+                                        className="size-5 rounded-lg border-2 border-primary text-primary focus:ring-primary h-5 w-5"
+                                    />
+                                </div>
+                                <label htmlFor="isAEE" className="cursor-pointer select-none">
+                                    <span className="block font-black text-sm text-slate-900 dark:text-white uppercase tracking-tighter">Professor AEE</span>
+                                    <span className="block text-xs text-slate-500 font-medium mt-1">Professores AEE são responsáveis por gerenciar os alunos AEE.</span>
+                                </label>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4 pt-6 md:col-span-2 border-t border-slate-50 dark:border-slate-800">
+                                <button type="button" onClick={() => { setIsCreating(false); setEditingTeacher(null); }} className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-all">Cancelar</button>
+                                <button
+                                    type="submit"
+                                    disabled={isLoading}
+                                    className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 border-none cursor-pointer"
+                                >
+                                    {isLoading ? <Loader2 className="animate-spin" size={18} /> : (editingTeacher ? 'Salvar Alterações' : 'Criar Profissional')}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

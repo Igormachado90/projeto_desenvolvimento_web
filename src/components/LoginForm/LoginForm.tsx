@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './LoginForm.module.css';
 import { supabase } from '../../lib/supabase';
+import { Eye, EyeOff } from 'lucide-react';
 
 interface LoginFormProps {
   onForgotPassword: () => void;
@@ -9,9 +10,19 @@ interface LoginFormProps {
 export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Carregar e-mail salvo se existir
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('remembered_email');
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +37,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
     if (error) {
       setError(error.message === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error.message);
       setLoading(false);
+    } else {
+      // Login sucesso - Gerenciar "Lembre-se"
+      if (rememberMe) {
+        localStorage.setItem('remembered_email', email);
+      } else {
+        localStorage.removeItem('remembered_email');
+      }
     }
   };
 
@@ -45,13 +63,23 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
       <div className={styles.passwordRow}>
         <div className={styles.fieldGroup} style={{ flex: 1 }}>
           <label className={styles.label}>Senha</label>
-          <input
-            type="password"
-            className={styles.input}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className={styles.inputContainer}>
+            <input
+              type={showPassword ? "text" : "password"}
+              className={styles.input}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={{ paddingRight: '3rem' }}
+            />
+            <button
+              type="button"
+              className={styles.eyeButton}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
         </div>
         
         <label className={styles.rememberArea}>

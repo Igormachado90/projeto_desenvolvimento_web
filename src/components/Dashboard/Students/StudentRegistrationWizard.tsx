@@ -5,49 +5,45 @@ import styles from './StudentRegistrationWizard.module.css';
 interface WizardProps {
     onCancel: () => void;
     onComplete: (data: any) => void;
+    initialData?: any;
 }
 
-export const StudentRegistrationWizard: React.FC<WizardProps> = ({ onCancel, onComplete }) => {
+export const StudentRegistrationWizard: React.FC<WizardProps> = ({ onCancel, onComplete, initialData }) => {
+    const isEdit = !!initialData?.id;
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
-
-        nomeCompleto: '',
-        dataNascimento: '',
-        cpf: '',
-        genero: '',
-
-        responsavelNome: '',
-        responsavelEmail: '',
-        responsavelTelefone: '',
-        cep: '',
-        logradouro: '',
-        numero: '',
-        complemento: '',
-        bairro: '',
-        cidade: '',
-        estado: '',
-
-        escola: '',
-        turma: '',
-
-        gravidez: '',
-        tipoParto: '',
-        pesoNascer: '',
-        apgar: '',
-        internacaoNeonatal: '',
-
-        marcosDesenvolvimento: '',
-        producaoVerbal: '',
-        entendeInstrucoes: '',
-        contatoOcular: '',
-        brincadeiraPreferida: '',
-
-        doencas: '',
-        medicacao: '',
-        alergias: '',
-        sono: '',
-        alimentacao: '',
-        observacoes: ''
+        nomeCompleto: initialData?.nome || '',
+        dataNascimento: initialData?.dataNascimento || '',
+        cpf: initialData?.cpf || '',
+        genero: initialData?.genero || '',
+        responsavelNome: initialData?.responsavel || '',
+        responsavelEmail: initialData?.responsavelEmail || '',
+        responsavelTelefone: initialData?.responsavelTelefone || '',
+        cep: initialData?.cep || '',
+        logradouro: initialData?.logradouro || '',
+        numero: initialData?.numero || '',
+        complemento: initialData?.complemento || '',
+        bairro: initialData?.bairro || '',
+        cidade: initialData?.cidade || '',
+        estado: initialData?.estado || '',
+        escola: initialData?.escola || '',
+        turma: initialData?.serie || '',
+        gravidez: initialData?.detalhes?.gravidez || '',
+        tipoParto: initialData?.detalhes?.tipoParto || '',
+        pesoNascer: initialData?.detalhes?.pesoNascer || '',
+        apgar: initialData?.detalhes?.apgar || '',
+        internacaoNeonatal: initialData?.detalhes?.internacaoNeonatal || '',
+        marcosDesenvolvimento: initialData?.detalhes?.marcosDesenvolvimento || '',
+        producaoVerbal: initialData?.detalhes?.producaoVerbal || '',
+        entendeInstrucoes: initialData?.detalhes?.entendeInstrucoes || '',
+        contatoOcular: initialData?.detalhes?.contatoOcular || '',
+        brincadeiraPreferida: initialData?.detalhes?.brincadeiraPreferida || '',
+        doencas: initialData?.detalhes?.doencas || '',
+        medicacao: initialData?.detalhes?.medicacao || '',
+        alergias: initialData?.detalhes?.alergias || '',
+        sono: initialData?.detalhes?.sono || '',
+        alimentacao: initialData?.detalhes?.alimentacao || '',
+        observacoes: initialData?.detalhes?.observacoes || ''
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -83,8 +79,8 @@ export const StudentRegistrationWizard: React.FC<WizardProps> = ({ onCancel, onC
         <div className={styles.container}>
             {}
             <div className={styles.header}>
-                <h2 className={styles.title}>Novo Aluno/PEI</h2>
-                <p className={styles.subtitle}>Preencha as informações por etapas</p>
+                <h2 className={styles.title}>{isEdit ? 'Editar Prontuário' : 'Matricular Novo Aluno'}</h2>
+                <p className={styles.subtitle}>Etapa {currentStep} de 6: {steps[currentStep-1].label}</p>
             </div>
 
             {}
@@ -99,7 +95,7 @@ export const StudentRegistrationWizard: React.FC<WizardProps> = ({ onCancel, onC
                             className={`${styles.step} ${isActive ? styles.stepActive : ''} ${isCompleted ? styles.stepCompleted : ''}`}
                         >
                             <div className={styles.stepCircle}>
-                                {isCompleted ? <Check size={16} /> : step.id}
+                                {isCompleted ? <Check size={18} strokeWidth={3} /> : <step.icon size={18} />}
                             </div>
                             <div className={styles.stepLabel}>{step.label}</div>
                         </div>

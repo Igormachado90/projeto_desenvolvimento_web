@@ -92,9 +92,9 @@ Módulos para controle da infraestrutura educacional e áreas de atendimento.
 
 ```mermaid
 graph LR
-    Management[Gestão Administrativa] --> Schools[Escolas da Rede]
-    Management --> Classes[Turmas e Horários]
-    Management --> Teachers[Professores e Especialistas]
+    Gerenciamento[Gestão Administrativa] --> Schools[Escolas da Rede]
+    Gerenciamento --> Classes[Turmas e Horários]
+    Gerenciamento --> Teachers[Professores e Especialistas]
     
     Disciplines[Disciplinas/Especialidades] --> Spec[Áreas: Fono, Psicologia, etc.]
     Disciplines --> LinkProf[Vincular Especialistas]

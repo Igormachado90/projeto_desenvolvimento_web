@@ -19,7 +19,7 @@ describe('Security & Permissions Logic', () => {
     it('returns correct permissions for Tutor', () => {
         const permissions = getPermissions('Tutor');
         expect(permissions.canEditStudents).toBe(false);
-        expect(permissions.canViewManagement).toBe(false);
+        expect(permissions.canViewGerenciamento).toBe(false);
         expect(permissions.canViewStudents).toBe(true);
     });
 

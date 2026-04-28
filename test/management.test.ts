@@ -24,7 +24,7 @@ vi.mock('@/lib/supabase', () => ({
     },
 }));
 
-describe('Management Services (Schools, Teachers, Classes, Disciplines)', () => {
+describe('Gerenciamento Services (Schools, Teachers, Classes, Disciplines)', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });

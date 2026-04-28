@@ -12,6 +12,7 @@ import puzzleIllustration from './src/assets/images/icon2.png';
 
 const LoginForm = lazy(() => import('./src/components/LoginForm/LoginForm').then(m => ({ default: m.LoginForm })));
 const Dashboard = lazy(() => import('./src/components/Dashboard').then(m => ({ default: m.Dashboard })));
+const ErrorPage = lazy(() => import('./src/components/ErrorPage/ErrorPage').then(m => ({ default: m.ErrorPage })));
 
 const slides = [
   {
@@ -131,7 +132,11 @@ const App: React.FC = () => {
         ) : <Navigate to="/login" replace />
       } />
 
-      <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} replace />} />
+      <Route path="*" element={
+        <Suspense fallback={null}>
+          <ErrorPage />
+        </Suspense>
+      } />
     </Routes>
   );
 };

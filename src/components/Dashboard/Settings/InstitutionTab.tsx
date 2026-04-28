@@ -299,7 +299,7 @@ export const InstitutionTab = () => {
                             <button
                                 type="submit"
                                 disabled={isSaving}
-                                className="w-full md:w-auto px-10 py-4 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                                className="w-full md:w-auto px-12 py-4 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                             >
                                 {isSaving ? <Building2 size={18} className="animate-spin" /> : <Save size={18} />}
                                 Salvar Alterações

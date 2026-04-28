@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { School, GraduationCap, Users, Building2, BookOpen } from 'lucide-react';
+import { School, GraduationCap, Users, Building2, BookOpen, Layers, ArrowRight } from 'lucide-react';
 import { SchoolsTab } from './tabs/SchoolsTab';
 import { TeachersTab } from './tabs/TeachersTab';
 import { ClassesTab } from './tabs/ClassesTab';
-import { schoolsService } from '@/lib/schoolsService';
-import { studentService } from '@/lib/studentService';
-import { classesService } from '@/lib/classesService';
-import { useAuth } from '@/lib/useAuth';
-
+import { schoolsService } from '../../../lib/schoolsService';
+import { studentService } from '../../../lib/studentService';
+import { classesService } from '../../../lib/classesService';
+import { useAuth } from '../../../lib/useAuth';
+import styles from './ManagementView.module.css';
 
 type Tab = 'escolas' | 'professores' | 'profissionais' | 'turmas';
 
@@ -56,72 +56,98 @@ export const ManagementView = () => {
         fetchCounts();
     };
 
+    const tabs = [
+        { id: 'escolas' as const, label: 'Unidades', icon: Building2, desc: 'Gerencie suas unidades parceiras' },
+        { id: 'professores' as const, label: 'Docentes', icon: GraduationCap, desc: 'Gestão de professores e educadores' },
+        { id: 'profissionais' as const, label: 'Especialistas', icon: Users, desc: 'Profissionais de saúde e apoio' },
+        { id: 'turmas' as const, label: 'Turmas', icon: BookOpen, desc: 'Controle de turmas e classes' },
+    ];
+
     return (
-        <div className="animate-in fade-in duration-700 space-y-8 pb-12">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div className="space-y-1">
-                    <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                        Gestão <span className="text-primary italic">Administrativa</span>
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20 px-2 sm:px-4">
+            {/* 1. Hero Header - Design Dashboard Style */}
+            <div className="bg-white dark:bg-slate-800 rounded-[35px] p-8 md:p-12 shadow-sm border border-slate-100 dark:border-slate-700/50 flex flex-col md:flex-row justify-between items-center gap-8 relative overflow-hidden mb-10">
+                <div className="relative z-10 text-center md:text-left">
+                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-3 block">Módulo Institucional</span>
+                    <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-4">
+                        Gestão <span className="text-primary italic">Escolar</span>
                     </h1>
-                    <div className="flex flex-col xl:flex-row xl:items-center gap-2 xl:gap-4 mt-2">
-                        <div className="text-slate-500 dark:text-slate-400 text-sm font-medium flex items-center gap-2">
-                            <div className="size-2 bg-primary rounded-full animate-pulse" />
-                            Infraestrutura Ativa: {schoolCount} Unidades
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                        <div className="flex flex-col">
+                            <span className="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary border border-primary/10 rounded-xl text-[11px] font-black uppercase tracking-widest">
+                                <Layers size={14} strokeWidth={3} />
+                                Visão Administrativa Global
+                            </span>
                         </div>
-                        <span className="hidden xl:block text-slate-200 dark:text-slate-700">|</span>
-                        <div className="text-slate-500 dark:text-slate-400 text-sm font-medium flex items-center gap-2">
-                            Corpo Docente: {teacherCount} Docentes
-                        </div>
-                        <span className="hidden xl:block text-slate-200 dark:text-slate-700">|</span>
-                        <div className="text-slate-500 dark:text-slate-400 text-sm font-medium flex items-center gap-2">
-                            Profissionais: {specialistCount} Especialistas
-                        </div>
-                        <span className="hidden xl:block text-slate-200 dark:text-slate-700">|</span>
-                        <div className="text-slate-500 dark:text-slate-400 text-sm font-medium flex items-center gap-2">
-                            Turmas: {classCount} Ativas
-                        </div>
+                        <p className="text-slate-400 text-xs font-semibold italic">Controle de unidades, equipes e turmas</p>
                     </div>
+                </div>
+
+                {/* Background Decoration */}
+                <div className="absolute -right-20 -top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+            </div>
+
+            <div className={styles.metricsRow}>
+                <div className={styles.metricCardMini}>
+                    <div>
+                        <span className={styles.miniLabel}>Unidades</span>
+                        <span className={styles.miniValue}>{schoolCount}</span>
+                    </div>
+                    <div className={styles.miniIconBox} style={{ color: '#4E96E8' }}><Building2 size={20} /></div>
+                </div>
+                <div className={styles.metricCardMini}>
+                    <div>
+                        <span className={styles.miniLabel}>Professores</span>
+                        <span className={styles.miniValue}>{teacherCount}</span>
+                    </div>
+                    <div className={styles.miniIconBox} style={{ color: '#B2D47E' }}><GraduationCap size={20} /></div>
+                </div>
+                <div className={styles.metricCardMini}>
+                    <div>
+                        <span className={styles.miniLabel}>Especialistas</span>
+                        <span className={styles.miniValue}>{specialistCount}</span>
+                    </div>
+                    <div className={styles.miniIconBox} style={{ color: '#E4B43B' }}><Users size={20} /></div>
+                </div>
+                <div className={styles.metricCardMini}>
+                    <div>
+                        <span className={styles.miniLabel}>Turmas Ativas</span>
+                        <span className={styles.miniValue}>{classCount}</span>
+                    </div>
+                    <div className={styles.miniIconBox} style={{ color: '#9AD0EE' }}><BookOpen size={20} /></div>
                 </div>
             </div>
 
-            { }
-            <div className="bg-white dark:bg-slate-800 p-2 rounded-3xl border-[1.5px] border-slate-100 dark:border-slate-700 shadow-sm inline-flex flex-wrap gap-2">
-                {[
-                    { id: 'escolas' as const, label: 'Unidades / Escolas', icon: Building2 },
-                    { id: 'professores' as const, label: 'Corpo Docente', icon: GraduationCap },
-                    { id: 'profissionais' as const, label: 'Especialistas', icon: Users },
-                    { id: 'turmas' as const, label: 'Turmas / Classes', icon: BookOpen },
-                ].map((tab) => {
-                    const isActive = activeTab === tab.id;
-                    return (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id as Tab)}
-                            className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all duration-300 ${isActive
-                                ? 'bg-primary text-white shadow-lg shadow-primary/25'
-                                : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-primary'
-                                }`}
-                        >
-                            <tab.icon size={18} strokeWidth={isActive ? 3 : 2} />
-                            {tab.label}
-                        </button>
-                    );
-                })}
+            <div className={styles.tabsContainer}>
+                {tabs.map((tab) => (
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id as Tab)}
+                        className={`${styles.tabBtn} ${activeTab === tab.id ? styles.tabBtnActive : ''}`}
+                    >
+                        <tab.icon size={18} className={activeTab === tab.id ? styles.tabIconActive : ''} />
+                        {tab.label}
+                    </button>
+                ))}
             </div>
 
-            { }
-            <div className="bg-white dark:bg-slate-800 rounded-[3rem] border border-slate-100 dark:border-slate-700/50 shadow-sm min-h-[600px] overflow-hidden">
-                <div className="p-8 md:p-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="mb-10">
-                        <h2 className="text-xl font-black text-slate-900 dark:text-white capitalize">
-                            {activeTab === 'escolas' ? 'Lista de Escolas' : activeTab === 'professores' ? 'Gestão de Professores' : activeTab === 'profissionais' ? 'Gestão de Profissionais de Saúde' : 'Turmas Ativas'}
+            <div className={styles.contentCard}>
+                <div className={styles.cardInner}>
+                    <div className={styles.cardHeader}>
+                        <h2 className={styles.cardTitle}>
+                            {tabs.find(t => t.id === activeTab)?.label}
                         </h2>
-                        <p className="text-xs text-slate-400 font-medium mt-1">Gerencie as informações detalhadas de {activeTab === 'escolas' ? 'suas unidades parceiras' : activeTab === 'professores' ? 'seus professores' : activeTab === 'profissionais' ? 'seus profissionais de saúde' : 'suas turmas cadastradas'}.</p>
+                        <p className={styles.cardSub}>
+                            {tabs.find(t => t.id === activeTab)?.desc}.
+                        </p>
                     </div>
-                    {activeTab === 'escolas' && <SchoolsTab onUpdate={handleUpdate} />}
-                    {activeTab === 'professores' && <TeachersTab onUpdate={fetchCounts} category="Professor" />}
-                    {activeTab === 'profissionais' && <TeachersTab onUpdate={fetchCounts} category="Profissional de Saúde" />}
-                    {activeTab === 'turmas' && <ClassesTab onUpdate={handleUpdate} />}
+
+                    <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        {activeTab === 'escolas' && <SchoolsTab onUpdate={handleUpdate} />}
+                        {activeTab === 'professores' && <TeachersTab onUpdate={fetchCounts} category="Professor" />}
+                        {activeTab === 'profissionais' && <TeachersTab onUpdate={fetchCounts} category="Profissional de Saúde" />}
+                        {activeTab === 'turmas' && <ClassesTab onUpdate={handleUpdate} />}
+                    </div>
                 </div>
             </div>
         </div>

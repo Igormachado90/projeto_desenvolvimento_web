@@ -6,14 +6,15 @@
   --primary: #0f0c26;
   --secondary: #455a85;
   --accent: #fcce40;
-  --success-color: #96d268;
+  --success-color: #004183;
   --deep-brown: #2c1201;
   --neutral-light: #c4b0ae;
   --neutral-muted: #917c74;
   
-  /* Gradient Colors (DO NOT CHANGE) */
+  /* Gradient Colors (Institutional Premium) */
   --grad-start: #004183;
   --grad-end: #cce5ff;
+  --btn-gradient: linear-gradient(135deg, var(--grad-start) 0%, var(--grad-end) 100%);
 
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
@@ -40,7 +41,7 @@ body {
 
 .dark {
   --primary: #455a85;
-  --success-color: #96d268;
+  --success-color: #cce5ff;
   --bg-primary: #05040f;
   --bg-secondary: #0f0c26;
   --text-primary: #f8fafc;

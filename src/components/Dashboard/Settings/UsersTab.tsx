@@ -224,7 +224,7 @@ export const UsersTab = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="flex-[2] px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest bg-primary text-white shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                            className="flex-[2] px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-lg shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                         >
                             {isLoading ? <Loader2 className="animate-spin" size={18} /> : (editingUser ? 'Salvar Alterações' : 'Finalizar Cadastro')}
                         </button>
@@ -258,9 +258,9 @@ export const UsersTab = () => {
                         }
                         setIsCreating(true);
                     }}
-                    className={`w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-black/10 ${(authUser?.tipo !== 'Administrador' && users.length >= (authUser?.limite_usuarios || 5))
+                    className={`w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-blue-500/10 ${(authUser?.tipo !== 'Administrador' && users.length >= (authUser?.limite_usuarios || 5))
                         ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                        : 'bg-slate-900 dark:bg-white dark:text-slate-900 text-white hover:scale-[1.05] active:scale-[0.95]'
+                        : 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white hover:scale-[1.05] active:scale-[0.95]'
                         }`}
                 >
                     <Plus size={18} strokeWidth={3} />

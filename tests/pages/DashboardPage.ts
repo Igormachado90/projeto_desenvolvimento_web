@@ -7,7 +7,7 @@ export class DashboardPage {
         await this.page.click('role=button[name=/Alunos/i]');
     }
 
-    async goToManagement() {
+    async goToGerenciamento() {
         await this.page.click('role=button[name=/Gerenciamento/i]');
     }
 

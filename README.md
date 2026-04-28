@@ -132,7 +132,7 @@ src/
 │   │   │   ├── components/    # AgendaView, StudentDetailView
 │   │   │   ├── Tabs/          # PEIsTab, DisciplinesTab, NotesTab
 │   │   │   └── wizards/       # PEIWizard, StudentRegistrationWizard
-│   │   ├── Management/        # Gestão Administrativa
+│   │   ├── Gerenciamento/        # Gestão Administrativa
 │   │   │   └── tabs/          # SchoolsTab, TeachersTab, ClassesTab
 │   │   ├── Reports/           # Central de Relatórios
 │   │   ├── Discipline/        # Gestão de Disciplinas

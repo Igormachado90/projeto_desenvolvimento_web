@@ -111,6 +111,12 @@ export const userService = {
             return newUser;
         } catch (error: any) {
             console.error("User Creation Error:", error);
+            
+            // Helpful error for orphan accounts
+            if (error.message?.includes('already registered') || error.message?.includes('usuário já existe')) {
+                throw new Error('Este e-mail já possui um acesso ativo no sistema de autenticação (Auth), mas o perfil não foi encontrado. Por favor, acesse o painel do Supabase para excluir o usuário orfão do Auth ou contate o suporte.');
+            }
+            
             throw new Error(error.message || 'Erro ao criar usuário');
         }
     },

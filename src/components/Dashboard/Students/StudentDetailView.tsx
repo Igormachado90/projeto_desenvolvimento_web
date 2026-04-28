@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { ArrowLeft, Edit3, Trash2, Calendar, BookOpen, FileText, ClipboardList, Info, GraduationCap, Building2, User, Activity, Clock } from 'lucide-react';
+import { 
+  ArrowLeft, Edit3, Trash2, Calendar, BookOpen, FileText, 
+  ClipboardList, Info, GraduationCap, Building2, User, 
+  Activity, Clock, Loader2 
+} from 'lucide-react';
+import styles from './StudentDetailView.module.css';
 import { PEIsTab } from './Tabs/PEIsTab';
 import { NotesTab } from './Tabs/NotesTab';
 import { DisciplinesTab } from './Tabs/DisciplinesTab';
@@ -8,8 +13,8 @@ import { ExecutionTab } from './Tabs/ExecutionTab';
 import { PEIWizard } from './wizards/PEIWizard';
 import { StudentRegistrationWizard } from './wizards/StudentRegistrationWizard';
 import { studentService } from '@/lib/studentService';
-import { Loader2 } from 'lucide-react';
 import { AgendaView } from './components/AgendaView';
+import logo from '../../../assets/images/logo.png';
 
 interface Student {
     id: string;
@@ -33,6 +38,16 @@ interface Props {
     onBack: (refresh?: boolean) => void;
 }
 
+const StatCard = ({ icon: Icon, label, value }: { icon: any, label: string, value: string }) => (
+    <div className={styles.statCard}>
+        <div className={styles.statLabel}>
+            <Icon size={14} />
+            <span>{label}</span>
+        </div>
+        <div className={styles.statValue}>{value || '---'}</div>
+    </div>
+);
+
 export const StudentDetailView = ({ student: initialStudent, onBack }: Props) => {
     const [activeTab, setActiveTab] = useState<'peis' | 'notes' | 'disciplines' | 'details' | 'accompaniment' | 'agenda'>('peis');
     const [refreshKey, setRefreshKey] = useState(0);
@@ -46,11 +61,11 @@ export const StudentDetailView = ({ student: initialStudent, onBack }: Props) =>
             setIsDeleting(true);
             try {
                 await studentService.delete(student.id);
-                alert('Aluno excluído com sucesso!');
+                alert('Prontuário excluído com sucesso!');
                 onBack(true);
             } catch (error) {
                 console.error('Erro ao excluir aluno:', error);
-                alert('Erro ao excluir aluno. Tente novamente.');
+                alert('Erro na exclusão.');
             } finally {
                 setIsDeleting(false);
             }
@@ -71,132 +86,115 @@ export const StudentDetailView = ({ student: initialStudent, onBack }: Props) =>
     }
 
     return (
-        <div className="animate-in fade-in slide-in-from-right-8 duration-700 space-y-8 pb-20">
-            { }
-            <div className="flex items-center justify-between">
-                <button
-                    onClick={() => onBack()}
-                    className="flex items-center gap-2 text-slate-400 font-black text-[10px] uppercase tracking-[0.2em] hover:text-primary transition-all group"
-                >
-                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                    Voltar para Listagem
+        <div className={styles.detailWrapper}>
+            {/* Header Actions */}
+            <div className={styles.headerActions}>
+                <button onClick={() => onBack()} className={styles.backBtn}>
+                    <ArrowLeft size={16} />
+                    <span>Voltar para Listagem</span>
                 </button>
-                <div className="flex gap-3">
-                    <button
-                        onClick={() => setIsEditing(true)}
-                        className="p-4 bg-white dark:bg-slate-800 border-[1.5px] border-slate-100 dark:border-slate-700 text-slate-500 hover:text-primary rounded-2xl transition-all shadow-sm"
-                    >
-                        <Edit3 size={20} />
+                <div className={styles.actionGroup}>
+                    <button onClick={() => setIsEditing(true)} className={styles.editBtn}>
+                        <Edit3 size={18} />
+                        <span>Editar Prontuário</span>
                     </button>
                     <button
                         onClick={handleDelete}
                         disabled={isDeleting}
-                        className="p-4 bg-white dark:bg-slate-800 border-[1.5px] border-slate-100 dark:border-slate-700 text-slate-500 hover:text-red-500 rounded-2xl transition-all shadow-sm disabled:opacity-50"
+                        className={styles.deleteBtn}
+                        title="Excluir Prontuário"
                     >
-                        {isDeleting ? <Loader2 size={20} className="animate-spin" /> : <Trash2 size={20} />}
+                        {isDeleting ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
                     </button>
                 </div>
             </div>
 
-            { }
-            <div className="bg-white dark:bg-slate-800 rounded-[3rem] border-[1.5px] border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-none p-10">
-                <div className="flex flex-col xl:flex-row items-start gap-10">
-                    { }
-                    <div className="relative">
-                        <div className="size-40 rounded-[3rem] bg-slate-900 flex items-center justify-center text-white text-5xl font-black shadow-2xl rotate-3 overflow-hidden">
+            {/* Profile Hero Section */}
+            <div className={styles.profileHero}>
+                <div className={styles.heroBranding}>
+                    <img src={logo} alt="VinculoTEA" />
+                </div>
+                <div className={styles.bgDecoration} />
+                <div className={styles.heroContent}>
+                    <div className={styles.photoContainer}>
+                        <div className={styles.photoBox}>
                             {student.foto ? (
-                                <img
-                                    src={student.foto}
-                                    alt={student.nome}
-                                    className="size-full object-cover"
-                                    onError={(e) => {
-                                        (e.target as HTMLImageElement).style.display = 'none';
-                                        const nextEl = (e.target as HTMLImageElement).nextElementSibling;
-                                        if (nextEl) (nextEl as HTMLElement).style.display = 'flex';
-                                    }}
-                                />
-                            ) : null}
-                            <div
-                                className="size-full flex items-center justify-center bg-primary"
-                                style={{ display: student.foto ? 'none' : 'flex' }}
-                            >
-                                {student.nome.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                            </div>
+                                <img src={student.foto} alt={student.nome} className={styles.photoImg} />
+                            ) : (
+                                <span>{student.nome.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
+                            )}
                         </div>
-                        <div className={`absolute -bottom-2 -right-2 px-6 py-2 rounded-2xl border-4 border-white dark:border-slate-800 text-[10px] font-black uppercase tracking-widest shadow-xl ${student.status === 'Ativo' ? 'bg-emerald-500 text-white' : 'bg-slate-400 text-white'
-                            }`}>
+                        <div className={`${styles.statusBadge} ${student.status === 'Inativo' ? styles.statusInactive : ''}`}>
                             {student.status}
                         </div>
                     </div>
 
-                    { }
-                    <div className="flex-1 space-y-6 w-full">
-                        <div>
-                            <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tighter mb-2 italic">
-                                {student.nome}
-                            </h1>
-                            <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px] flex items-center gap-2">
-                                <Info size={14} className="text-primary" /> Condição Especial: Autismo (TEA)
-                            </p>
+                    <div className={styles.mainInfo}>
+                        <h1 className={styles.studentName}>{student.nome}</h1>
+                        <div className={styles.tagsRow}>
+                            <span className={styles.tagItem}>Condição: TEA / Autismo</span>
+                            <span className={`${styles.tagItem} ${styles.tagId}`}>ID: #{String(student.id).slice(0, 8)}</span>
+                            <span className={styles.tagItem}>Inscrito em: {student.dataCadastro}</span>
                         </div>
 
-                        { }
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            <InfoBox icon={Building2} label="Escola" value={student.escola} />
-                            <InfoBox icon={Activity} label="CID" value={student.cid || 'N/A'} />
-                            <InfoBox icon={GraduationCap} label="Série/Turma" value={student.serie} />
-                            <InfoBox icon={Calendar} label="Data Nascimento" value={student.dataNascimento} />
-                            <InfoBox icon={User} label="Responsável" value={student.responsavel} />
-                            <InfoBox icon={User} label="Gênero" value={student.genero} />
-                            <InfoBox icon={Clock} label="Data de Cadastro" value={student.dataCadastro} />
-                            <InfoBox icon={GraduationCap} label="Professores" value="3 Profissionais" />
+                        <div className={styles.statsGrid}>
+                            <StatCard icon={Building2} label="Escola" value={student.escola} />
+                            <StatCard icon={Activity} label="CID Principal" value={student.cid || 'N/A'} />
+                            <StatCard icon={GraduationCap} label="Série / Ciclo" value={student.serie} />
+                            <StatCard icon={User} label="Responsável" value={student.responsavel} />
                         </div>
                     </div>
                 </div>
             </div>
 
-            { }
-            <div className="flex bg-slate-100/50 dark:bg-slate-900/50 p-2 rounded-[2rem] gap-2 max-w-fit border-[1.5px] border-slate-100/50 dark:border-slate-800">
-                <TabButton
-                    active={activeTab === 'peis'}
-                    onClick={() => setActiveTab('peis')}
-                    icon={BookOpen}
-                    label="Planos (PEIs)"
-                />
-                <TabButton
-                    active={activeTab === 'notes'}
-                    onClick={() => setActiveTab('notes')}
-                    icon={FileText}
-                    label="Anotações"
-                />
-                <TabButton
-                    active={activeTab === 'disciplines'}
-                    onClick={() => setActiveTab('disciplines')}
-                    icon={ClipboardList}
-                    label="Disciplinas"
-                />
-                <TabButton
-                    active={activeTab === 'details'}
-                    onClick={() => setActiveTab('details')}
-                    icon={Info}
-                    label="Detalhes"
-                />
-                <TabButton
-                    active={activeTab === 'accompaniment'}
-                    onClick={() => setActiveTab('accompaniment')}
-                    icon={Activity}
-                    label="Acompanhamento"
-                />
-                <TabButton
-                    active={activeTab === 'agenda'}
-                    onClick={() => setActiveTab('agenda')}
-                    icon={Calendar}
-                    label="Agenda"
-                />
+            {/* Navigation Tabs */}
+            <div className={styles.tabsContainer}>
+                <button 
+                  className={`${styles.tabBtn} ${activeTab === 'peis' ? styles.tabBtnActive : ''}`} 
+                  onClick={() => setActiveTab('peis')}
+                >
+                    <BookOpen size={16} />
+                    <span>Planos (PEIs)</span>
+                </button>
+                <button 
+                  className={`${styles.tabBtn} ${activeTab === 'notes' ? styles.tabBtnActive : ''}`} 
+                  onClick={() => setActiveTab('notes')}
+                >
+                    <FileText size={16} />
+                    <span>Anotações</span>
+                </button>
+                <button 
+                  className={`${styles.tabBtn} ${activeTab === 'disciplines' ? styles.tabBtnActive : ''}`} 
+                  onClick={() => setActiveTab('disciplines')}
+                >
+                    <ClipboardList size={16} />
+                    <span>Disciplinas</span>
+                </button>
+                <button 
+                  className={`${styles.tabBtn} ${activeTab === 'details' ? styles.tabBtnActive : ''}`} 
+                  onClick={() => setActiveTab('details')}
+                >
+                    <Info size={16} />
+                    <span>Detalhes</span>
+                </button>
+                <button 
+                  className={`${styles.tabBtn} ${activeTab === 'accompaniment' ? styles.tabBtnActive : ''}`} 
+                  onClick={() => setActiveTab('accompaniment')}
+                >
+                    <Activity size={16} />
+                    <span>Acompanhamento</span>
+                </button>
+                <button 
+                  className={`${styles.tabBtn} ${activeTab === 'agenda' ? styles.tabBtnActive : ''}`} 
+                  onClick={() => setActiveTab('agenda')}
+                >
+                    <Calendar size={16} />
+                    <span>Agenda</span>
+                </button>
             </div>
 
-            { }
-            <div className="animate-in fade-in zoom-in-95 duration-500">
+            {/* Tab Content Rendering */}
+            <div className={styles.contentArea}>
                 {activeTab === 'peis' && (
                     <PEIsTab
                         key={`peis-${refreshKey}`}
@@ -213,7 +211,7 @@ export const StudentDetailView = ({ student: initialStudent, onBack }: Props) =>
                 {activeTab === 'agenda' && <AgendaView key={`agenda-${refreshKey}`} studentId={student.id} />}
             </div>
 
-            { }
+            {/* Overlay Wizards */}
             {isCreatingPEI && (
                 <PEIWizard
                     studentName={student.nome}
@@ -228,25 +226,3 @@ export const StudentDetailView = ({ student: initialStudent, onBack }: Props) =>
         </div>
     );
 };
-
-const InfoBox = ({ icon: Icon, label, value }: { icon: any, label: string, value: string }) => (
-    <div className="space-y-1">
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-            <Icon size={12} className="text-primary" /> {label}
-        </p>
-        <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{value}</p>
-    </div>
-);
-
-const TabButton = ({ active, onClick, icon: Icon, label }: { active: boolean, onClick: () => void, icon: any, label: string }) => (
-    <button
-        onClick={onClick}
-        className={`flex items-center gap-3 px-8 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-widest transition-all ${active
-            ? 'bg-white dark:bg-slate-800 text-primary shadow-lg shadow-primary/10'
-            : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-            }`}
-    >
-        <Icon size={18} />
-        {label}
-    </button>
-);

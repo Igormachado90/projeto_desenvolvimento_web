@@ -421,7 +421,7 @@ export const AgendaView = ({ studentId }: { studentId?: string | number }) => {
                         </div>
 
                         <div>
-                            <h4 className="flex items-center gap-2 text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] mb-4 text-red-500">
+                            <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] mb-4 text-red-500">
                                 <span className="size-1.5 bg-red-500 rounded-full animate-pulse" /> Importante
                             </h4>
                             {importantEvents.length > 0 ? (
@@ -461,7 +461,7 @@ export const AgendaView = ({ studentId }: { studentId?: string | number }) => {
 
                             <button
                                 onClick={() => setIsCreating(true)}
-                                className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all"
+                                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.05] transition-all border-none cursor-pointer"
                             >
                                 <Plus size={16} /> Criar
                             </button>
@@ -633,7 +633,7 @@ export const AgendaView = ({ studentId }: { studentId?: string | number }) => {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="flex-[2] py-4 bg-primary text-white rounded-3xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
+                                    className="flex-[2] py-4 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-3xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.05] active:scale-[0.95] transition-all flex items-center justify-center gap-2 border-none cursor-pointer"
                                 >
                                     {isSubmitting ? <Loader2 className="animate-spin" size={16} /> : editingEvent ? 'Atualizar Evento' : 'Salvar Evento'}
                                 </button>

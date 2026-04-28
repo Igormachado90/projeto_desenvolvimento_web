@@ -1,6 +1,6 @@
 import { Page, expect } from '@playwright/test';
 
-export class ManagementPage {
+export class GerenciamentoPage {
     constructor(private page: Page) { }
 
     async createSchool(name: string, address?: string) {

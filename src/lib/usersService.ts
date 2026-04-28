@@ -5,7 +5,7 @@ import { supabase } from './supabase';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL!;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY!;
 
-const authClient = createClient(supabaseUrl, supabaseAnonKey, {
+export const authClient = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
         persistSession: false,
         autoRefreshToken: false,

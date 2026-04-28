@@ -323,7 +323,7 @@ CID: ${d.cid}
                 </div>
                 <button
                     onClick={onOpenWizard}
-                    className="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/25 hover:scale-[1.05] transition-all"
+                    className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/25 hover:scale-[1.05] hover:shadow-primary/40 transition-all border-none cursor-pointer"
                 >
                     <Plus size={20} strokeWidth={3} />
                     Novo PEI Completo
@@ -544,7 +544,7 @@ CID: ${d.cid}
                                 <button onClick={() => handlePrint(viewingPEI)} className="px-8 py-5 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 transition-all border border-slate-100 dark:border-slate-600 shadow-sm flex items-center gap-3">
                                     <Printer size={18} /> Imprimir Relatório
                                 </button>
-                                <button onClick={() => { setViewingPEI(null); setEditingPEI(viewingPEI); }} className="px-10 py-5 bg-primary text-white rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/25 hover:scale-[1.05] transition-all flex items-center gap-3">
+                                <button onClick={() => { setViewingPEI(null); setEditingPEI(viewingPEI); }} className="px-10 py-5 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/25 hover:scale-[1.05] hover:shadow-primary/40 transition-all flex items-center gap-3 border-none cursor-pointer">
                                     <Edit2 size={18} /> Editar Plano Completo
                                 </button>
                             </div>

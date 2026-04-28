@@ -185,127 +185,7 @@ export const DisciplineView = () => {
         s.Nome.toLowerCase().includes(linkForm.searchStudent.toLowerCase())
     );
 
-    if (isCreating) {
-        return (
-            <div className="animate-in fade-in slide-in-from-right-8 duration-500 space-y-8">
-                <div className="flex justify-between items-center">
-                    <div className="space-y-1">
-                        <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight italic">
-                            {editingDiscipline ? 'Editar' : 'Nova'} <span className="text-primary">Disciplina</span>
-                        </h2>
-                        <p className="text-sm font-medium text-slate-500">{editingDiscipline ? 'Atualize os dados da disciplina' : 'Cadastre uma nova matéria base para a rede de ensino'}</p>
-                    </div>
-                    <button onClick={() => { setIsCreating(false); setEditingDiscipline(null); }} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-red-50 hover:text-red-500 transition-all shadow-sm">
-                        <X size={20} />
-                    </button>
-                </div>
 
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 rounded-[3rem] p-10 border-[1.5px] border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/40 dark:shadow-none space-y-10 max-w-4xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nome da Disciplina *</label>
-                            <input
-                                required
-                                type="text"
-                                value={formData.nome}
-                                onChange={e => setFormData({ ...formData, nome: e.target.value })}
-                                placeholder="Ex: Matemática"
-                                className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-transparent focus:border-primary/30 rounded-2xl py-5 px-6 text-sm font-bold outline-none transition-all dark:text-white border-none shadow-inner font-sans"
-                            />
-                        </div>
-
-                        <div className="flex items-center pt-8">
-                            <label className="flex items-center gap-4 cursor-pointer group">
-                                <div className="relative">
-                                    <input
-                                        type="checkbox"
-                                        className="peer hidden"
-                                        checked={formData.status === 'Ativo'}
-                                        onChange={e => setFormData({ ...formData, status: e.target.checked ? 'Ativo' : 'Inativo' })}
-                                    />
-                                    <div className="size-7 rounded-xl bg-slate-100 dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-700 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center">
-                                        <Check size={16} className="text-white scale-0 peer-checked:scale-100 transition-transform" strokeWidth={4} />
-                                    </div>
-                                </div>
-                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Disciplina Ativa</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Descrição</label>
-                        <textarea
-                            value={formData.descricao}
-                            onChange={e => setFormData({ ...formData, descricao: e.target.value })}
-                            placeholder="Descrição opcional da disciplina..."
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[2px] border-transparent focus:bg-white dark:focus:bg-slate-800 focus:border-primary/20 rounded-[2rem] py-5 px-6 text-sm font-bold outline-none transition-all dark:text-white min-h-[120px] shadow-inner font-sans"
-                        />
-                    </div>
-
-                    <div className="space-y-6">
-                        <div className="flex justify-between items-center px-1">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Professores Registrados na Plataforma</label>
-                            <span className="text-primary font-bold text-[10px] lowercase">{selectedTeachersIds.length} professor(es) selecionado(s)</span>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                            {teachers.length > 0 ? teachers.map((teacher) => (
-                                <button
-                                    type="button"
-                                    key={teacher.Professor_ID || teacher.id}
-                                    onClick={() => toggleTeacherSelection(teacher.Professor_ID?.toString() || teacher.id)}
-                                    className={`flex items-center justify-between p-4 rounded-2xl border-[1.5px] transition-all text-left ${selectedTeachersIds.includes(teacher.Professor_ID?.toString() || teacher.id)
-                                        ? 'bg-primary/5 border-primary/30'
-                                        : 'bg-slate-50 dark:bg-slate-900/30 border-transparent hover:border-slate-200 shadow-sm'
-                                        }`}
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <div className={`size-10 rounded-xl flex items-center justify-center font-black text-xs ${selectedTeachersIds.includes(teacher.Professor_ID?.toString() || teacher.id) ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white dark:bg-slate-800 text-slate-400'
-                                            }`}>
-                                            {teacher.Usuarios?.Foto ? (
-                                                <img src={teacher.Usuarios.Foto} className="size-full object-cover" />
-                                            ) : teacher.Nome.charAt(0)}
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-black text-slate-900 dark:text-white leading-tight">{teacher.Nome}</p>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">({teacher.Especialidade || teacher.Especialidades})</p>
-                                        </div>
-                                    </div>
-                                    {selectedTeachersIds.includes(teacher.Professor_ID?.toString() || teacher.id) && (
-                                        <div className="size-6 rounded-full bg-primary flex items-center justify-center text-white">
-                                            <Check size={14} strokeWidth={4} />
-                                        </div>
-                                    )}
-                                </button>
-                            )) : (
-                                <div className="col-span-2 py-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl flex flex-col items-center justify-center gap-2">
-                                    <Users className="text-slate-300" size={24} />
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Nenhum professor registrado na plataforma</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="pt-8 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-5">
-                        <button
-                            type="button"
-                            onClick={() => { setIsCreating(false); setEditingDiscipline(null); }}
-                            className="px-10 py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-all font-bold"
-                        >
-                            Descartar
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="px-12 py-5 bg-primary hover:bg-primary/90 text-white rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 active:scale-95 transition-all flex items-center gap-2"
-                        >
-                            {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : (editingDiscipline ? 'Atualizar Disciplina' : 'Salvar Disciplina')}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        );
-    }
 
     return (
         <div className="animate-in fade-in duration-700 space-y-10 pb-12">
@@ -326,7 +206,7 @@ export const DisciplineView = () => {
 
                 <button
                     onClick={() => { setIsCreating(true); setEditingDiscipline(null); setFormData({ nome: '', descricao: '', status: 'Ativo' }); setSelectedTeachersIds([]); }}
-                    className="flex items-center gap-4 px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-black/10 hover:scale-[1.05] active:scale-[0.95] transition-all"
+                    className="flex items-center gap-4 px-10 py-5 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-black/10 hover:scale-[1.05] active:scale-[0.95] transition-all border-none cursor-pointer"
                 >
                     <Plus size={22} strokeWidth={3} />
                     Nova Disciplina
@@ -564,7 +444,7 @@ export const DisciplineView = () => {
                                     <button
                                         onClick={handleBulkLink}
                                         disabled={isSubmitting || linkForm.student_ids.length === 0}
-                                        className="flex-[2] py-4 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2"
+                                        className="flex-[2] py-4 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2 border-none cursor-pointer"
                                     >
                                         {isSubmitting ? <Loader2 className="animate-spin" size={16} /> : <Check size={16} strokeWidth={3} />}
                                         Confirmar Vínculos
@@ -572,6 +452,128 @@ export const DisciplineView = () => {
                                 </>
                             )}
                         </div>
+                    </div>
+                </div>
+            )}
+            { }
+            {isCreating && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 dark:border-slate-800 animate-in zoom-in-95 duration-300">
+                        <div className="flex justify-between items-center mb-8">
+                            <div className="space-y-1">
+                                <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight italic">
+                                    {editingDiscipline ? 'Editar' : 'Nova'} <span className="text-primary">Disciplina</span>
+                                </h2>
+                                <p className="text-xs font-medium text-slate-500">{editingDiscipline ? 'Atualize os dados da disciplina' : 'Cadastre uma nova matéria base para a rede de ensino'}</p>
+                            </div>
+                            <button onClick={() => { setIsCreating(false); setEditingDiscipline(null); }} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-red-50 hover:text-red-500 transition-all shadow-sm">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nome da Disciplina *</label>
+                                    <input
+                                        required
+                                        type="text"
+                                        value={formData.nome}
+                                        onChange={e => setFormData({ ...formData, nome: e.target.value })}
+                                        placeholder="Ex: Matemática"
+                                        className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 focus:border-primary/50 rounded-2xl py-4 px-5 text-sm font-bold outline-none transition-all dark:text-white"
+                                    />
+                                </div>
+
+                                <div className="flex items-center pt-8">
+                                    <label className="flex items-center gap-4 cursor-pointer group">
+                                        <div className="relative">
+                                            <input
+                                                type="checkbox"
+                                                className="peer hidden"
+                                                checked={formData.status === 'Ativo'}
+                                                onChange={e => setFormData({ ...formData, status: e.target.checked ? 'Ativo' : 'Inativo' })}
+                                            />
+                                            <div className="size-7 rounded-xl bg-slate-100 dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-700 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center">
+                                                <Check size={16} className="text-white scale-0 peer-checked:scale-100 transition-transform" strokeWidth={4} />
+                                            </div>
+                                        </div>
+                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover:text-primary transition-colors">Disciplina Ativa</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Descrição</label>
+                                <textarea
+                                    value={formData.descricao}
+                                    onChange={e => setFormData({ ...formData, descricao: e.target.value })}
+                                    placeholder="Descrição opcional da disciplina..."
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 focus:border-primary/50 rounded-[2rem] py-4 px-5 text-sm font-bold outline-none transition-all dark:text-white min-h-[120px]"
+                                />
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="flex justify-between items-center px-1">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Professores Registrados na Plataforma</label>
+                                    <span className="text-primary font-bold text-[10px] lowercase">{selectedTeachersIds.length} professor(es) selecionado(s)</span>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[240px] overflow-y-auto pr-2 custom-scrollbar">
+                                    {teachers.length > 0 ? teachers.map((teacher) => (
+                                        <button
+                                            type="button"
+                                            key={teacher.Professor_ID || teacher.id}
+                                            onClick={() => toggleTeacherSelection(teacher.Professor_ID?.toString() || teacher.id)}
+                                            className={`flex items-center justify-between p-4 rounded-2xl border-[1.5px] transition-all text-left ${selectedTeachersIds.includes(teacher.Professor_ID?.toString() || teacher.id)
+                                                ? 'bg-primary/5 border-primary/30'
+                                                : 'bg-slate-50 dark:bg-slate-900/50 border-transparent hover:border-slate-200/50 dark:hover:border-slate-700'
+                                                }`}
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className={`size-10 rounded-xl flex items-center justify-center font-black text-xs ${selectedTeachersIds.includes(teacher.Professor_ID?.toString() || teacher.id) ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white dark:bg-slate-800 text-slate-400'
+                                                    }`}>
+                                                    {teacher.Usuarios?.Foto ? (
+                                                        <img src={teacher.Usuarios.Foto} className="size-full object-cover" />
+                                                    ) : teacher.Nome.charAt(0)}
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-black text-slate-900 dark:text-white leading-tight">{teacher.Nome}</p>
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight truncate max-w-[120px]">({teacher.Especialidade || teacher.Especialidades})</p>
+                                                </div>
+                                            </div>
+                                            {selectedTeachersIds.includes(teacher.Professor_ID?.toString() || teacher.id) && (
+                                                <div className="size-6 rounded-full bg-primary flex items-center justify-center text-white">
+                                                    <Check size={14} strokeWidth={4} />
+                                                </div>
+                                            )}
+                                        </button>
+                                    )) : (
+                                        <div className="col-span-2 py-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl flex flex-col items-center justify-center gap-2">
+                                            <Users className="text-slate-300" size={24} />
+                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Nenhum professor registrado na plataforma</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="pt-8 border-t border-slate-50 dark:border-slate-800 flex justify-end gap-5">
+                                <button
+                                    type="button"
+                                    onClick={() => { setIsCreating(false); setEditingDiscipline(null); }}
+                                    className="px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-500 hover:text-slate-700 transition-all"
+                                >
+                                    Descartar
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="px-8 py-4 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl flex items-center gap-2 border-none cursor-pointer"
+                                >
+                                    {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : (editingDiscipline ? 'Atualizar Disciplina' : 'Salvar Disciplina')}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

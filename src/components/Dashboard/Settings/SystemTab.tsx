@@ -104,10 +104,10 @@ export const SystemTab = () => {
                         </div>
 
                         <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
-                            <button
-                                onClick={() => document.querySelector<HTMLElement>('button[aria-label="Menu de Acessibilidade"]')?.click()}
-                                className="px-6 py-2.5 rounded-xl bg-primary text-white text-xs font-bold uppercase tracking-wide hover:bg-primary-600 transition-colors shadow-lg shadow-primary/20 flex items-center gap-2"
-                            >
+                                <button
+                                    onClick={() => document.querySelector<HTMLElement>('button[aria-label="Menu de Acessibilidade"]')?.click()}
+                                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#004183] to-[#455a85] text-white text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-blue-500/20 flex items-center gap-2"
+                                >
                                 <Accessibility size={16} />
                                 Abrir Menu Acessibilidade
                             </button>

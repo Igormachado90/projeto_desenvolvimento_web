@@ -124,7 +124,7 @@ export const NotesTab = ({ studentId }: { studentId: string }) => {
                                 setFormData({ tipo: 'Geral', data: new Date().toISOString().split('T')[0], conteudo: '' });
                             }
                         }}
-                        className="flex-1 xl:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl transition-all hover:scale-[1.05]"
+                        className="flex-1 xl:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl transition-all hover:scale-[1.05] border-none cursor-pointer"
                     >
                         {isAdding ? <X size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
                         {isAdding ? 'Fechar' : 'Nova Anotação'}
@@ -171,7 +171,7 @@ export const NotesTab = ({ studentId }: { studentId: string }) => {
                     </div>
                     <div className="flex justify-end gap-4">
                         <button onClick={() => setIsAdding(false)} className="px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest text-slate-400 hover:text-slate-600">Cancelar</button>
-                        <button onClick={handleSaveNote} className="px-8 py-3 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20">
+                        <button onClick={handleSaveNote} className="px-8 py-3 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-[1.05] transition-all border-none cursor-pointer">
                             {editingNote ? 'Atualizar Anotação' : 'Salvar Anotação'}
                         </button>
                     </div>

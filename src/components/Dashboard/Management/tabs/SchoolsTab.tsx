@@ -138,149 +138,6 @@ export const SchoolsTab = ({ onUpdate }: { onUpdate?: () => void }) => {
         (s.endereco || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (isCreating) {
-        return (
-            <div className="animate-in fade-in slide-in-from-right-4 duration-500 space-y-8">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight italic">
-                            {editingSchool ? 'Editar' : 'Nova'} <span className="text-primary">Unidade Escolar</span>
-                        </h2>
-                        <p className="text-xs font-medium text-slate-500">
-                            {editingSchool ? 'Atualize as informações da instituição' : 'Registre uma nova instituição no sistema'}
-                        </p>
-                    </div>
-                    <button onClick={() => { setIsCreating(false); setEditingSchool(null); }} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10 transition-all">
-                        <X size={20} />
-                    </button>
-                </div>
-
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-6 gap-6">
-                    <div className="space-y-2 md:col-span-6">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nome da Escola *</label>
-                        <input
-                            type="text"
-                            name="nome"
-                            value={formData.nome}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Digite o nome da escola"
-                        />
-                    </div>
-
-                    <div className="space-y-2 md:col-span-4">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Logradouro</label>
-                        <input
-                            type="text"
-                            name="logradouro"
-                            value={formData.logradouro}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Rua, Av, etc."
-                        />
-                    </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Número</label>
-                        <input
-                            type="text"
-                            name="numero"
-                            value={formData.numero}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Nº"
-                        />
-                    </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Bairro</label>
-                        <input
-                            type="text"
-                            name="bairro"
-                            value={formData.bairro}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Bairro"
-                        />
-                    </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Cidade</label>
-                        <input
-                            type="text"
-                            name="cidade"
-                            value={formData.cidade}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Cidade"
-                        />
-                    </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Estado</label>
-                        <select
-                            name="estado"
-                            value={formData.estado}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none appearance-none"
-                        >
-                            <option value="AC">Acre</option>
-                            <option value="AL">Alagoas</option>
-                            <option value="AP">Amapá</option>
-                            <option value="AM">Amazonas</option>
-                            <option value="BA">Bahia</option>
-                            <option value="CE">Ceará</option>
-                            <option value="DF">Distrito Federal</option>
-                            <option value="ES">Espírito Santo</option>
-                            <option value="GO">Goiás</option>
-                            <option value="MA">Maranhão</option>
-                            <option value="MT">Mato Grosso</option>
-                            <option value="MS">Mato Grosso do Sul</option>
-                            <option value="MG">Minas Gerais</option>
-                            <option value="PA">Pará</option>
-                            <option value="PB">Paraíba</option>
-                            <option value="PR">Paraná</option>
-                            <option value="PE">Pernambuco</option>
-                            <option value="PI">Piauí</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                            <option value="RN">Rio Grande do Norte</option>
-                            <option value="RS">Rio Grande do Sul</option>
-                            <option value="RO">Rondônia</option>
-                            <option value="RR">Roraima</option>
-                            <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
-                            <option value="SE">Sergipe</option>
-                            <option value="TO">Tocantins</option>
-                        </select>
-                    </div>
-
-                    <div className="space-y-2 md:col-span-6">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Telefone de Contato</label>
-                        <input
-                            type="tel"
-                            name="telefone"
-                            value={formData.telefone}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="(00) 0000-0000"
-                        />
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4 pt-6 md:col-span-6 border-t border-slate-50 dark:border-slate-800">
-                        <button type="button" onClick={() => { setIsCreating(false); setEditingSchool(null); }} className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 transition-all">Descartar</button>
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest bg-primary text-white shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                        >
-                            {isLoading ? <Loader2 className="animate-spin" size={18} /> : 'Salvar Unidade'}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        );
-    }
 
     return (
         <div className="animate-in fade-in slide-in-from-left-4 duration-500 space-y-8">
@@ -300,17 +157,18 @@ export const SchoolsTab = ({ onUpdate }: { onUpdate?: () => void }) => {
                         const isSuperAdmin = authUser?.tipo === 'Administrador';
                         const UNIDADE_LIMIT = isSuperAdmin ? 999 : (authUser?.limite_unidades || 1);
                         if (!isSuperAdmin && schools.length >= UNIDADE_LIMIT) {
-                            alert(`Seu plano permite apenas ${UNIDADE_LIMIT} unidade(s) escolar(es) cadastrada(s). Para gerenciar múltiplas unidades, entre em contato com o suporte para upgrade de plano.`);
-                            return;
+                            return; // Alert is not strictly necessary if disabled, but kept fallback
                         }
                         setIsCreating(true);
                     }}
-                    className={`w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-black/10 ${(authUser?.tipo !== 'Administrador' && schools.length >= (authUser?.limite_unidades || 1))
-                        ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                        : 'bg-slate-900 dark:bg-white dark:text-slate-900 text-white hover:scale-[1.05] active:scale-[0.95]'
+                    disabled={authUser?.tipo !== 'Administrador' && schools.length >= (authUser?.limite_unidades || 1)}
+                    className={`w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all border-none ${
+                        (authUser?.tipo !== 'Administrador' && schools.length >= (authUser?.limite_unidades || 1))
+                        ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed shadow-none'
+                        : 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-xl shadow-blue-900/20 hover:scale-[1.05] active:scale-[0.95] cursor-pointer'
                         }`}
                 >
-                    <Plus size={18} strokeWidth={3} />
+                    <Plus size={18} strokeWidth={3} className={!(authUser?.tipo !== 'Administrador' && schools.length >= (authUser?.limite_unidades || 1)) ? "group-hover:rotate-90 transition-transform" : ""} />
                     Adicionar Escola
                 </button>
             </div>
@@ -407,6 +265,150 @@ export const SchoolsTab = ({ onUpdate }: { onUpdate?: () => void }) => {
                                 {isLoading ? <Loader2 className="animate-spin" size={16} /> : 'Excluir'}
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+            { }
+            {isCreating && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 dark:border-slate-800 animate-in zoom-in-95 duration-300">
+                        <div className="flex justify-between items-center mb-8">
+                            <div>
+                                <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight italic">
+                                    {editingSchool ? 'Editar' : 'Nova'} <span className="text-primary">Unidade Escolar</span>
+                                </h2>
+                                <p className="text-xs font-medium text-slate-500">
+                                    {editingSchool ? 'Atualize as informações da instituição' : 'Registre uma nova instituição no sistema'}
+                                </p>
+                            </div>
+                            <button onClick={() => { setIsCreating(false); setEditingSchool(null); }} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10 transition-all">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-6 gap-6">
+                            <div className="space-y-2 md:col-span-6">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nome da Escola *</label>
+                                <input
+                                    type="text"
+                                    name="nome"
+                                    value={formData.nome}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Digite o nome da escola"
+                                />
+                            </div>
+
+                            <div className="space-y-2 md:col-span-4">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Logradouro</label>
+                                <input
+                                    type="text"
+                                    name="logradouro"
+                                    value={formData.logradouro}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Rua, Av, etc."
+                                />
+                            </div>
+
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Número</label>
+                                <input
+                                    type="text"
+                                    name="numero"
+                                    value={formData.numero}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Nº"
+                                />
+                            </div>
+
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Bairro</label>
+                                <input
+                                    type="text"
+                                    name="bairro"
+                                    value={formData.bairro}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Bairro"
+                                />
+                            </div>
+
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Cidade</label>
+                                <input
+                                    type="text"
+                                    name="cidade"
+                                    value={formData.cidade}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Cidade"
+                                />
+                            </div>
+
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Estado</label>
+                                <select
+                                    name="estado"
+                                    value={formData.estado}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none appearance-none"
+                                >
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-2 md:col-span-6">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Telefone de Contato</label>
+                                <input
+                                    type="tel"
+                                    name="telefone"
+                                    value={formData.telefone}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="(00) 0000-0000"
+                                />
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4 pt-6 md:col-span-6 border-t border-slate-50 dark:border-slate-800">
+                                <button type="button" onClick={() => { setIsCreating(false); setEditingSchool(null); }} className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-all">Descartar</button>
+                                <button
+                                    type="submit"
+                                    disabled={isLoading}
+                                    className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 border-none cursor-pointer"
+                                >
+                                    {isLoading ? <Loader2 className="animate-spin" size={18} /> : 'Salvar Unidade'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

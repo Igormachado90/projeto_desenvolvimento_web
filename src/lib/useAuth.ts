@@ -21,7 +21,7 @@ export interface Permissions {
     canViewStudents: boolean;
     canEditStudents: boolean;
     canDeleteStudents: boolean;
-    canViewManagement: boolean;
+    canViewGerenciamento: boolean;
     canEditSchools: boolean;
     canEditTeachers: boolean;
     canEditClasses: boolean;
@@ -39,7 +39,7 @@ const ROLE_PERMISSIONS: Record<string, Permissions> = {
         canViewStudents: true,
         canEditStudents: true,
         canDeleteStudents: true,
-        canViewManagement: true,
+        canViewGerenciamento: true,
         canEditSchools: true,
         canEditTeachers: true,
         canEditClasses: true,
@@ -55,7 +55,7 @@ const ROLE_PERMISSIONS: Record<string, Permissions> = {
         canViewStudents: true,
         canEditStudents: true,
         canDeleteStudents: true,
-        canViewManagement: true,
+        canViewGerenciamento: true,
         canEditSchools: true,
         canEditTeachers: true,
         canEditClasses: true,
@@ -71,7 +71,7 @@ const ROLE_PERMISSIONS: Record<string, Permissions> = {
         canViewStudents: true,
         canEditStudents: true,
         canDeleteStudents: false,
-        canViewManagement: true,
+        canViewGerenciamento: true,
         canEditSchools: false,
         canEditTeachers: false,
         canEditClasses: true,
@@ -87,7 +87,7 @@ const ROLE_PERMISSIONS: Record<string, Permissions> = {
         canViewStudents: true,
         canEditStudents: true,
         canDeleteStudents: false,
-        canViewManagement: true,
+        canViewGerenciamento: true,
         canEditSchools: false,
         canEditTeachers: false,
         canEditClasses: true,
@@ -103,7 +103,7 @@ const ROLE_PERMISSIONS: Record<string, Permissions> = {
         canViewStudents: true,
         canEditStudents: false,
         canDeleteStudents: false,
-        canViewManagement: false,
+        canViewGerenciamento: false,
         canEditSchools: false,
         canEditTeachers: false,
         canEditClasses: false,
@@ -119,7 +119,7 @@ const ROLE_PERMISSIONS: Record<string, Permissions> = {
         canViewStudents: true,
         canEditStudents: false,
         canDeleteStudents: false,
-        canViewManagement: false,
+        canViewGerenciamento: false,
         canEditSchools: false,
         canEditTeachers: false,
         canEditClasses: false,
@@ -135,7 +135,7 @@ const ROLE_PERMISSIONS: Record<string, Permissions> = {
         canViewStudents: true,
         canEditStudents: false,
         canDeleteStudents: false,
-        canViewManagement: false,
+        canViewGerenciamento: false,
         canEditSchools: false,
         canEditTeachers: false,
         canEditClasses: false,

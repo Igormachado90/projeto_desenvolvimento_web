@@ -35,6 +35,31 @@
   background-color: #e2e8f0;
 }
 
+.inputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.eyeButton:hover {
+  color: #004183;
+}
+
 .passwordRow {
   display: flex;
   align-items: center;

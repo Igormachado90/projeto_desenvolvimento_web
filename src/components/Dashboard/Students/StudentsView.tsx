@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Search, Plus, Filter, Users, ArrowUpDown, Loader2, Download, X } from 'lucide-react';
+import { Search, Plus, Filter, Users, ArrowUpDown, Loader2, Download, X, Edit3, Trash2, MoreVertical } from 'lucide-react';
 import { StudentRegistrationWizard } from './wizards/StudentRegistrationWizard';
 import { StudentDetailView } from './StudentDetailView';
 import { studentService } from '@/lib/studentService';
@@ -47,6 +47,8 @@ export const StudentsView = ({ initialModuloFilter }: StudentsViewProps) => {
     const [filterPeriodo, setFilterPeriodo] = useState('');
     const [filterTurma, setFilterTurma] = useState('');
     const [allClasses, setAllClasses] = useState<any[]>([]);
+    const [isEditingDirect, setIsEditingDirect] = useState(false);
+    const [editingStudent, setEditingStudent] = useState<Student | null>(null);
 
     const fetchInitialData = async () => {
         try {
@@ -322,6 +324,19 @@ export const StudentsView = ({ initialModuloFilter }: StudentsViewProps) => {
         setIsRegistering(true);
     };
 
+    const handleDeleteDirect = async (s: Student) => {
+        if (confirm(`Tem certeza que deseja excluir o prontuário de ${s.nome}?`)) {
+            try {
+                await studentService.delete(s.id);
+                alert('Aluno excluído!');
+                fetchStudents();
+            } catch (e) {
+                console.error(e);
+                alert('Erro ao excluir.');
+            }
+        }
+    };
+
     if (isRegistering) {
         return (
             <StudentRegistrationWizard
@@ -345,79 +360,100 @@ export const StudentsView = ({ initialModuloFilter }: StudentsViewProps) => {
         />;
     }
 
+    if (isEditingDirect && editingStudent) {
+        return (
+            <StudentRegistrationWizard
+                initialData={editingStudent}
+                onCancel={() => {
+                    setIsEditingDirect(false);
+                    setEditingStudent(null);
+                }}
+                onComplete={() => {
+                    setIsEditingDirect(false);
+                    setEditingStudent(null);
+                    fetchStudents();
+                }}
+            />
+        );
+    }
+
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-8 pb-12">
-            <header className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6">
-                <div>
-                    <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                        {initialModuloFilter === 'Pré-escola' ? 'Educação Infantil / ' : 'Gestão de '}
-                        <span className="text-primary italic">{initialModuloFilter === 'Pré-escola' ? 'Pré-escola' : 'Alunos'}</span>
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10 pb-20">
+            {/* 1. Hero Header - Design Dashboard Style */}
+            <div className="bg-white dark:bg-slate-800 rounded-[35px] p-8 md:p-12 shadow-sm border border-slate-100 dark:border-slate-700/50 flex flex-col md:flex-row justify-between items-center gap-8 relative overflow-hidden">
+                <div className="relative z-10 text-center md:text-left">
+                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-3 block">Módulo de Gestão</span>
+                    <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-4">
+                        {initialModuloFilter === 'Pré-escola' ? 'Educação ' : 'Gestão de '}
+                        <span className="text-primary italic">{initialModuloFilter === 'Pré-escola' ? 'Infantil' : 'Alunos'}</span>
                     </h1>
-                    <div className="flex items-center gap-2 mt-2">
-                        <span className={`flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest rounded-lg border transition-all ${(authUser?.tipo !== 'Administrador' && (authUser?.num_alunos || 0) >= (authUser?.limite_alunos || 1))
-                                ? 'bg-red-50 text-red-500 border-red-500/20'
-                                : 'bg-primary/5 text-primary border-primary/10'
-                            }`}>
-                            <Users size={12} strokeWidth={3} />
-                            {authUser?.num_alunos || 0} / {authUser?.tipo === 'Administrador' ? '∞' : (authUser?.limite_alunos || 100)} Matrículas
-                        </span>
-                        <p className="text-slate-400 text-xs font-medium italic">Base de dados sincronizada em tempo real</p>
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                        <div className="flex flex-col">
+                            <span className="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary border border-primary/10 rounded-xl text-[11px] font-black uppercase tracking-widest">
+                                <Users size={14} strokeWidth={3} />
+                                {students.length} / {authUser?.tipo === 'Administrador' ? '∞' : (authUser?.limite_alunos || 100)} Alunos
+                            </span>
+                        </div>
+
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3 w-full xl:w-auto">
+                <div className="flex flex-col sm:flex-row items-center gap-4 relative z-10 w-full md:w-auto">
                     <button
                         onClick={handleExportPDF}
                         disabled={filteredStudents.length === 0}
-                        className="flex-1 xl:flex-none flex items-center justify-center gap-2 px-6 py-3.5 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 rounded-2xl text-xs font-black text-slate-600 dark:text-slate-300 hover:border-primary transition-all uppercase tracking-widest shadow-sm disabled:opacity-50"
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-[11px] font-black text-slate-600 dark:text-slate-300 hover:bg-white hover:border-primary transition-all uppercase tracking-widest disabled:opacity-50"
                     >
                         <Download size={18} className="text-primary" />
-                        Exportar Alunos
+                        Exportar Relatório
                     </button>
                     <button
                         onClick={() => {
-                            const reached = (authUser?.num_alunos || 0) >= (authUser?.limite_alunos || 1);
-                            if (reached && authUser?.tipo !== 'Administrador') {
-                                alert(`Limite de alunos atingido (${authUser?.limite_alunos}). Entre em contato com o suporte para upgrade de plano.`);
-                                return;
-                            }
+                            // Secondary fallback
                             handleOpenWizard();
                         }}
-                        disabled={authUser?.tipo !== 'Administrador' && (authUser?.num_alunos || 0) >= (authUser?.limite_alunos || 1)}
-                        className={`flex-1 xl:flex-none flex items-center justify-center gap-3 px-8 py-3.5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl transition-all group ${(authUser?.tipo !== 'Administrador' && (authUser?.num_alunos || 0) >= (authUser?.limite_alunos || 1))
-                            ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed shadow-none border-2 border-slate-100 dark:border-slate-700'
-                            : 'bg-primary text-white shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]'
-                            }`}
+                        disabled={authUser?.tipo !== 'Administrador' && students.length >= (authUser?.limite_alunos || 1)}
+                        className={`w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all group border-none ${
+                            (authUser?.tipo !== 'Administrador' && students.length >= (authUser?.limite_alunos || 1))
+                                ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed shadow-none'
+                                : 'bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-xl shadow-blue-900/20 hover:scale-[1.05] active:scale-[0.98] cursor-pointer'
+                        }`}
                     >
-                        <Plus size={20} strokeWidth={3} className={((authUser?.tipo !== 'Administrador' && (authUser?.num_alunos || 0) >= (authUser?.limite_alunos || 1))) ? "" : "group-hover:rotate-90 transition-transform"} />
-                        Matricular Novo
+                        <Plus size={20} strokeWidth={3} className={!(authUser?.tipo !== 'Administrador' && students.length >= (authUser?.limite_alunos || 1)) ? "group-hover:rotate-90 transition-transform" : ""} />
+                        Novo Cadastro
                     </button>
                 </div>
-            </header>
+                
+                {/* Background Decoration */}
+                <div className="absolute -right-20 -top-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+            </div>
 
-            <div className="bg-white dark:bg-slate-800/80 p-6 md:p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-700/50 shadow-sm backdrop-blur-sm">
+            {/* 2. Search & Filters Bar */}
+            <div className="bg-white dark:bg-slate-800/80 p-8 rounded-[35px] border border-slate-100 dark:border-slate-700/50 shadow-sm backdrop-blur-sm">
                 <div className="flex flex-col lg:flex-row gap-6 items-end">
                     <div className="flex-1 w-full relative group">
-                        <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Filtro de busca inteligente</label>
-                        <Search className="absolute left-4 top-[46px] text-slate-400 group-focus-within:text-primary transition-colors" size={18} />
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Pesquisar por nome, responsável ou diagnóstico..."
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-2 border-transparent focus:border-primary/20 focus:bg-white rounded-2xl py-3.5 pl-12 pr-4 text-sm font-bold dark:text-white transition-all outline-none"
-                        />
+                        <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">Pesquisar na base de dados</label>
+                        <div className="relative">
+                            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" size={20} />
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Nome, responsável ou diagnóstico..."
+                                className="w-full bg-slate-50 dark:bg-slate-900/50 border-2 border-transparent focus:border-primary/20 focus:bg-white rounded-2xl py-4 pl-14 pr-4 text-sm font-bold dark:text-white transition-all outline-none"
+                            />
+                        </div>
                     </div>
 
                     <div className="w-full lg:w-72">
-                        <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Estado Civil Escolar</label>
-                        <div className="flex bg-slate-50 dark:bg-slate-900/50 p-1 rounded-2xl border-2 border-transparent">
+                        <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">Status de Matrícula</label>
+                        <div className="flex bg-slate-100 dark:bg-slate-900/50 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-700">
                             {['Todos', 'Ativo', 'Inativo'].map((st: any) => (
                                 <button
                                     key={st}
                                     onClick={() => setStatusFilter(st)}
                                     data-active={statusFilter === st}
-                                    className="flex-1 py-2 px-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:text-primary data-[active=true]:bg-white dark:data-[active=true]:bg-slate-800 data-[active=true]:text-primary data-[active=true]:shadow-sm"
+                                    className="flex-1 py-2.5 px-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:text-primary data-[active=true]:bg-white dark:data-[active=true]:bg-slate-800 data-[active=true]:text-primary data-[active=true]:shadow-md"
                                 >
                                     {st}
                                 </button>
@@ -427,13 +463,13 @@ export const StudentsView = ({ initialModuloFilter }: StudentsViewProps) => {
 
                     <button
                         onClick={() => setIsAdvancedFiltersOpen(true)}
-                        className={`h-[52px] px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all border-2 ${filterSchool || filterSerie || filterGender || filterModulo || filterPeriodo || filterTurma
-                            ? 'bg-primary/10 border-primary text-primary'
-                            : 'bg-slate-100 dark:bg-slate-900 border-transparent text-slate-500 hover:bg-slate-200'
+                        className={`h-[60px] px-8 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all border-2 ${filterSchool || filterSerie || filterGender || filterModulo || filterPeriodo || filterTurma
+                            ? 'bg-primary/5 border-primary/30 text-primary'
+                            : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-500 hover:bg-slate-50'
                             }`}
                     >
                         <Filter size={18} />
-                        {filterSchool || filterSerie || filterGender || filterModulo || filterPeriodo || filterTurma ? 'Filtros Ativos' : 'Filtros Avançados'}
+                        {filterSchool || filterSerie || filterGender || filterModulo || filterPeriodo || filterTurma ? 'Filtros Ativos' : 'Refinar Busca'}
                     </button>
                 </div>
 
@@ -565,112 +601,121 @@ export const StudentsView = ({ initialModuloFilter }: StudentsViewProps) => {
                 )}
             </div>
 
-            <div className="bg-white dark:bg-slate-800 rounded-[3rem] border border-slate-100 dark:border-slate-700/50 shadow-sm overflow-hidden">
+            {/* 3. Students Table List */}
+            <div className="bg-white dark:bg-slate-800 rounded-[35px] border border-slate-100 dark:border-slate-700/50 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full border-collapse">
                         <thead>
                             <tr className="bg-slate-50/50 dark:bg-slate-900/80 border-b border-slate-100 dark:border-slate-800 text-left">
-                                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
                                     <div className="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
                                         Aluno / Identificação <ArrowUpDown size={12} />
                                     </div>
                                 </th>
-                                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Instituição</th>
-                                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Responsável</th>
-                                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">CID</th>
-                                <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ação</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Instituição</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Responsável</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                                <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ação</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={6} className="px-8 py-20 text-center">
-                                        <div className="flex flex-col items-center gap-4">
-                                            <Loader2 size={40} className="text-primary animate-spin" />
-                                            <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Sincronizando dados...</p>
+                                    <td colSpan={5} className="px-10 py-24 text-center">
+                                        <div className="flex flex-col items-center gap-5">
+                                            <div className="relative">
+                                                <Loader2 size={48} className="text-primary animate-spin" />
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <div className="w-2 h-2 bg-primary rounded-full" />
+                                                </div>
+                                            </div>
+                                            <p className="text-slate-400 font-black uppercase tracking-[0.2em] text-[10px]">Sincronizando Ecossistema...</p>
                                         </div>
                                     </td>
                                 </tr>
                             ) : filteredStudents.length > 0 ? filteredStudents.map((student) => (
-                                <tr key={student.id} className="group hover:bg-slate-50/40 dark:hover:bg-white/[0.01] transition-all cursor-pointer" onClick={() => setSelectedStudent(student)}>
-                                    <td className="px-8 py-7">
-                                        <div className="flex items-center gap-5">
-                                            <div className="size-14 rounded-2xl bg-primary text-white font-black text-xl flex items-center justify-center shadow-lg group-hover:rotate-6 transition-transform relative overflow-hidden">
+                                <tr key={student.id} className="group hover:bg-slate-50/50 dark:hover:bg-white/[0.01] transition-all cursor-pointer" onClick={() => setSelectedStudent(student)}>
+                                    <td className="px-10 py-8">
+                                        <div className="flex items-center gap-6">
+                                            <div className="size-16 rounded-[22px] bg-slate-100 dark:bg-slate-900 text-primary font-black text-xl flex items-center justify-center shadow-inner group-hover:scale-110 group-hover:-rotate-3 transition-all relative overflow-hidden ring-4 ring-white dark:ring-slate-800">
                                                 {student.foto ? (
-                                                    <img
-                                                        src={student.foto}
-                                                        alt={student.nome}
-                                                        className="size-full object-cover"
-                                                        onError={(e) => {
-                                                            (e.target as HTMLImageElement).style.display = 'none';
-                                                            const nextEl = (e.target as HTMLImageElement).nextElementSibling;
-                                                            if (nextEl) (nextEl as HTMLElement).style.display = 'flex';
-                                                        }}
-                                                    />
-                                                ) : null}
-                                                <div
-                                                    className="size-full flex items-center justify-center bg-primary"
-                                                    style={{ display: student.foto ? 'none' : 'flex' }}
-                                                >
-                                                    {student.nome.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                                                </div>
-                                                <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                                                    <img src={student.foto} alt={student.nome} className="size-full object-cover" />
+                                                ) : (
+                                                    <span className="opacity-80">{student.nome.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
+                                                )}
+                                                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                                             </div>
                                             <div>
-                                                <p className="font-black text-slate-900 dark:text-white group-hover:text-primary transition-colors text-base leading-tight mb-1">{student.nome}</p>
-                                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                                                    <span className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700/50 rounded text-slate-500">{student.serie}</span>
-                                                    • Cadastrado em {student.dataCadastro}
+                                                <p className="font-black text-slate-900 dark:text-white group-hover:text-primary transition-colors text-lg leading-tight mb-1">{student.nome}</p>
+                                                <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-2">
+                                                    <span className="px-2 py-0.5 bg-primary/5 text-primary rounded-md">{student.serie}</span>
+                                                    {student.cid && <span className="text-primary/60 italic">CID: {student.cid}</span>}
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-7">
+                                    <td className="px-10 py-8">
                                         <div className="max-w-[200px]">
-                                            <p className="text-sm font-bold text-slate-600 dark:text-slate-400 line-clamp-1 group-hover:text-slate-900 transition-colors">{student.escola}</p>
-                                            <p className="text-[10px] text-slate-400 font-medium">Rede Municipal</p>
+                                            <p className="text-sm font-bold text-slate-600 dark:text-slate-400 line-clamp-1 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors uppercase tracking-tight">{student.escola}</p>
+                                            <p className="text-[10px] text-slate-400 font-semibold tracking-wider">Unidade Escolar</p>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-7">
+                                    <td className="px-10 py-8">
                                         <p className="text-sm font-bold text-slate-900 dark:text-slate-300">{student.responsavel}</p>
-                                        <p className="text-[10px] text-slate-400 font-medium italic">Matriz Parental</p>
+                                        <p className="text-[10px] text-slate-400 font-medium italic">Responsável Familiar</p>
                                     </td>
-                                    <td className="px-8 py-7">
-                                        <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest w-fit ${student.status === 'Ativo' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-50 text-slate-400 border border-slate-100'
+                                    <td className="px-10 py-8">
+                                        <span className={`inline-flex items-center gap-2.5 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${student.status === 'Ativo' 
+                                            ? 'bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-500/10 dark:border-emerald-500/20' 
+                                            : 'bg-slate-50 text-slate-400 border border-slate-100 dark:bg-slate-900/50 dark:border-slate-800'
                                             }`}>
                                             <div className={`size-1.5 rounded-full ${student.status === 'Ativo' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`} />
                                             {student.status}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-7">
-                                        {student.cid ? (
-                                            <span className="text-[10px] font-black text-primary px-3 py-1.5 bg-primary/5 rounded-full border border-primary/10 w-fit inline-flex items-center gap-2">
-                                                <div className="size-1 bg-primary rounded-full" />
-                                                CID: {student.cid}
-                                            </span>
-                                        ) : (
-                                            <span className="text-[10px] font-bold text-slate-300 uppercase italic">Não informado</span>
-                                        )}
-                                    </td>
-                                    <td className="px-8 py-7 text-right">
-                                        <div className="flex items-center justify-end gap-2.5 transition-all duration-300">
+                                    <td className="px-10 py-8 text-right">
+                                        <div className="flex items-center justify-end gap-2">
                                             <button
-                                                className="px-6 py-3 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-secondary transition-all shadow-lg shadow-primary/20 active:scale-95"
+                                                className="px-6 py-3.5 bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300 rounded-[14px] font-black text-[10px] uppercase tracking-[0.1em] border border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary hover:bg-white transition-all shadow-sm group-hover:shadow-md active:scale-95"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setSelectedStudent(student);
                                                 }}
                                             >
-                                                Ver Aluno
+                                                Prontuário
+                                            </button>
+                                            <div className="w-px h-6 bg-slate-100 dark:bg-slate-800 mx-2" />
+                                            <button
+                                                className="p-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-primary hover:border-primary/30 rounded-xl transition-all active:scale-90"
+                                                title="Editar"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setEditingStudent(student);
+                                                    setIsEditingDirect(true);
+                                                }}
+                                            >
+                                                <Edit3 size={16} />
+                                            </button>
+                                            <button
+                                                className="p-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-red-500 hover:border-red-100 rounded-xl transition-all active:scale-90"
+                                                title="Excluir"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDeleteDirect(student);
+                                                }}
+                                            >
+                                                <Trash2 size={16} />
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
                             )) : (
                                 <tr>
-                                    <td colSpan={6} className="px-8 py-20 text-center">
-                                        <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Nenhum aluno encontrado.</p>
+                                    <td colSpan={5} className="px-10 py-32 text-center">
+                                        <div className="flex flex-col items-center gap-4 opacity-40">
+                                            <Users size={64} strokeWidth={1} />
+                                            <p className="text-slate-400 font-black uppercase tracking-[0.2em] text-[11px]">Nenhum aluno encontrado no ecossistema.</p>
+                                        </div>
                                     </td>
                                 </tr>
                             )}

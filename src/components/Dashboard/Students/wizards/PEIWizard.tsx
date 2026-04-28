@@ -312,7 +312,7 @@ export const PEIWizard = ({ studentName, studentData, initialData, onCancel, onC
                         {step < 7 ? (
                             <button
                                 onClick={next}
-                                className="flex items-center gap-4 px-10 py-5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-[1.05] transition-all"
+                                className="flex items-center gap-4 px-10 py-5 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-[1.05] hover:shadow-primary/40 transition-all border-none cursor-pointer"
                             >
                                 Próximo <ArrowRight size={18} />
                             </button>
@@ -320,7 +320,7 @@ export const PEIWizard = ({ studentName, studentData, initialData, onCancel, onC
                             <button
                                 onClick={handleFinalize}
                                 disabled={isLoading}
-                                className="flex items-center gap-4 px-12 py-5 bg-primary text-white rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 hover:scale-[1.05] transition-all disabled:opacity-50"
+                                className="flex items-center gap-4 px-12 py-5 bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 hover:scale-[1.05] hover:shadow-primary/40 transition-all disabled:opacity-50 border-none cursor-pointer"
                             >
                                 {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Check size={20} strokeWidth={3} />}
                                 {isLoading ? 'Salvando...' : initialData ? 'Atualizar PEI' : 'Finalizar e Ativar PEI'}

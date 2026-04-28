@@ -3,21 +3,21 @@ import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { StudentsPage } from './pages/StudentsPage';
 import { PEIPage } from './pages/PEIPage';
-import { ManagementPage } from './pages/ManagementPage';
+import { GerenciamentoPage } from './pages/GerenciamentoPage';
 
 test.describe('VínculoTEA E2E Robust Suite', () => {
     let loginPage: LoginPage;
     let dashboard: DashboardPage;
     let students: StudentsPage;
     let pei: PEIPage;
-    let management: ManagementPage;
+    let Gerenciamento: GerenciamentoPage;
 
     test.beforeEach(async ({ page }) => {
         loginPage = new LoginPage(page);
         dashboard = new DashboardPage(page);
         students = new StudentsPage(page);
         pei = new PEIPage(page);
-        management = new ManagementPage(page);
+        Gerenciamento = new GerenciamentoPage(page);
 
         await loginPage.navigate();
         await loginPage.login('admin@vinculotea.com', 'admin123456');
@@ -70,9 +70,9 @@ test.describe('VínculoTEA E2E Robust Suite', () => {
     });
 
     test('Fluxo Administrativo: Gestão de Professores e Escolas', async ({ page }) => {
-        await dashboard.goToManagement();
-        await management.createSchool('Escola E2E Playwright', 'Rua das Flores, 123');
-        await management.createTeacher('Professor E2E', 'prof@e2e.com', '12345678900');
+        await dashboard.goToGerenciamento();
+        await Gerenciamento.createSchool('Escola E2E Playwright', 'Rua das Flores, 123');
+        await Gerenciamento.createTeacher('Professor E2E', 'prof@e2e.com', '12345678900');
 
         // Verification is implicit in POM steps if it doesn't fail, 
         // but it's better to check list

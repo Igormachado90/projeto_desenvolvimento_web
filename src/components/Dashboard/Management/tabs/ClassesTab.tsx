@@ -131,95 +131,6 @@ export const ClassesTab = ({ onUpdate }: { onUpdate?: () => void }) => {
         (c.escola_nome || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (isCreating) {
-        return (
-            <div className="animate-in fade-in slide-in-from-right-4 duration-500 space-y-8">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight italic">
-                            {editingClass ? 'Editar' : 'Nova'} <span className="text-primary">Turma</span>
-                        </h2>
-                        <p className="text-xs font-medium text-slate-500">Organize os alunos em novos agrupamentos vinculados a uma escola</p>
-                    </div>
-                    <button onClick={() => { setIsCreating(false); setEditingClass(null); }} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-red-50 hover:text-red-500 transition-all">
-                        <X size={20} />
-                    </button>
-                </div>
-
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nome da Turma *</label>
-                        <input
-                            type="text"
-                            name="nome"
-                            value={formData.nome}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Ex: Turma A, 1º Ano A, etc."
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Série/Ano</label>
-                        <input
-                            type="text"
-                            name="serie"
-                            value={formData.serie}
-                            onChange={handleChange}
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
-                            placeholder="Ex: 1º Ano, 2º Ano, etc."
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Período *</label>
-                        <select
-                            name="turno"
-                            value={formData.turno}
-                            onChange={handleChange}
-                            required
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none appearance-none"
-                        >
-                            <option value="Manhã">Manhã</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noite">Noite</option>
-                            <option value="Integral">Integral</option>
-                        </select>
-                    </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Escola *</label>
-                        <select
-                            name="escola_id"
-                            value={formData.escola_id || authUser?.escola_id?.toString() || ''}
-                            onChange={handleChange}
-                            disabled={authUser?.tipo !== 'Administrador'}
-                            required
-                            className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none appearance-none disabled:opacity-75"
-                        >
-                            <option value="">Selecione uma escola</option>
-                            {schools.map(s => <option key={s.id} value={s.id}>{s.nome || s.Nome}</option>)}
-                        </select>
-                        <p className="text-[10px] text-slate-400 font-medium ml-1">
-                            {authUser?.tipo !== 'Administrador' ? 'Vinculado automaticamente à sua unidade.' : 'Selecione a unidade escolar.'}
-                        </p>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4 pt-6 md:col-span-2 border-t border-slate-50 dark:border-slate-800">
-                        <button type="button" onClick={() => { setIsCreating(false); setEditingClass(null); }} className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 transition-all">Descartar</button>
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest bg-primary text-white shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                        >
-                            {isLoading ? <Loader2 className="animate-spin" size={18} /> : (editingClass ? 'Salvar Alterações' : 'Criar Turma')}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        );
-    }
 
     return (
         <div className="animate-in fade-in slide-in-from-left-4 duration-500 space-y-8">
@@ -236,7 +147,7 @@ export const ClassesTab = ({ onUpdate }: { onUpdate?: () => void }) => {
                 </div>
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-black text-xs uppercase tracking-widest hover:scale-[1.05] shadow-xl transition-all"
+                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white font-black text-xs uppercase tracking-widest hover:scale-[1.05] shadow-xl hover:shadow-primary/40 transition-all border-none cursor-pointer"
                 >
                     <Plus size={18} strokeWidth={3} />
                     Nova Turma
@@ -324,6 +235,96 @@ export const ClassesTab = ({ onUpdate }: { onUpdate?: () => void }) => {
                                 {isLoading ? <Loader2 className="animate-spin" size={16} /> : 'Excluir'}
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+            { }
+            {isCreating && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 dark:border-slate-800 animate-in zoom-in-95 duration-300">
+                        <div className="flex justify-between items-center mb-8">
+                            <div>
+                                <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight italic">
+                                    {editingClass ? 'Editar' : 'Nova'} <span className="text-primary">Turma</span>
+                                </h2>
+                                <p className="text-xs font-medium text-slate-500">Organize os alunos em novos agrupamentos vinculados a uma escola</p>
+                            </div>
+                            <button onClick={() => { setIsCreating(false); setEditingClass(null); }} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-red-50 hover:text-red-500 transition-all">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Nome da Turma *</label>
+                                <input
+                                    type="text"
+                                    name="nome"
+                                    value={formData.nome}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Ex: Turma A, 1º Ano A, etc."
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Série/Ano</label>
+                                <input
+                                    type="text"
+                                    name="serie"
+                                    value={formData.serie}
+                                    onChange={handleChange}
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none"
+                                    placeholder="Ex: 1º Ano, 2º Ano, etc."
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Período *</label>
+                                <select
+                                    name="turno"
+                                    value={formData.turno}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none appearance-none"
+                                >
+                                    <option value="Manhã">Manhã</option>
+                                    <option value="Tarde">Tarde</option>
+                                    <option value="Noite">Noite</option>
+                                    <option value="Integral">Integral</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Escola *</label>
+                                <select
+                                    name="escola_id"
+                                    value={formData.escola_id || authUser?.escola_id?.toString() || ''}
+                                    onChange={handleChange}
+                                    disabled={authUser?.tipo !== 'Administrador'}
+                                    required
+                                    className="w-full bg-slate-50 dark:bg-slate-900/50 border-[1.5px] border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-sm font-bold focus:border-primary/50 transition-all outline-none appearance-none disabled:opacity-75"
+                                >
+                                    <option value="">Selecione uma escola</option>
+                                    {schools.map(s => <option key={s.id} value={s.id}>{s.nome || s.Nome}</option>)}
+                                </select>
+                                <p className="text-[10px] text-slate-400 font-medium ml-1">
+                                    {authUser?.tipo !== 'Administrador' ? 'Vinculado automaticamente à sua unidade.' : 'Selecione a unidade escolar.'}
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4 pt-6 md:col-span-2 border-t border-slate-50 dark:border-slate-800">
+                                <button type="button" onClick={() => { setIsCreating(false); setEditingClass(null); }} className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-all">Descartar</button>
+                                <button
+                                    type="submit"
+                                    disabled={isLoading}
+                                    className="flex-1 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest bg-gradient-to-r from-[#004183] to-[#cce5ff] text-white shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 border-none cursor-pointer"
+                                >
+                                    {isLoading ? <Loader2 className="animate-spin" size={18} /> : (editingClass ? 'Salvar Alterações' : 'Criar Turma')}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

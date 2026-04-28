@@ -7,11 +7,11 @@ vi.mock('@/components/MarketingSection/MarketingSection', () => ({
     default: () => <div data-testid="marketing-section">Marketing</div>
 }));
 
-vi.mock('@/components/Dashboard/Management/ManagementView', () => ({
-    ManagementView: () => {
+vi.mock('@/components/Dashboard/Gerenciamento/GerenciamentoView', () => ({
+    GerenciamentoView: () => {
         const [tab, setTab] = (window as any).React.useState('escolas');
         return (
-            <div data-testid="management-view">
+            <div data-testid="Gerenciamento-view">
                 <h1>Gestão Administrativa</h1>
                 <button onClick={() => setTab('escolas')}>Unidades / Escolas</button>
                 <button onClick={() => setTab('professores')}>Corpo Docente</button>
@@ -50,7 +50,7 @@ describe('VínculoTEAFull Integration Tests', () => {
                 user: { id: 'u123', nome: 'Admin User', email: 'admin@test.com', tipo: 'Administrador', plataforma_id: 1 },
                 permissions: {
                     canViewStudents: true,
-                    canViewManagement: true,
+                    canViewGerenciamento: true,
                     canViewDisciplines: true,
                     canViewReports: true,
                     canViewSettings: true
@@ -96,7 +96,7 @@ describe('VínculoTEAFull Integration Tests', () => {
         }, 20000);
     });
 
-    describe('Student Management UI', () => {
+    describe('Student Gerenciamento UI', () => {
         it('opens the Student Registration Wizard', async () => {
             const { Dashboard } = await import('@/components/Dashboard/Dashboard');
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com', role: 'ADMINISTRADOR' }} onLogout={vi.fn()} />);
@@ -118,8 +118,8 @@ describe('VínculoTEAFull Integration Tests', () => {
         }, 20000);
     });
 
-    describe('Management & Settings Navigation', () => {
-        it('navigates through Management tabs (Schools, Teachers, Classes)', async () => {
+    describe('Gerenciamento & Settings Navigation', () => {
+        it('navigates through Gerenciamento tabs (Schools, Teachers, Classes)', async () => {
             const { Dashboard } = await import('@/components/Dashboard/Dashboard');
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com', role: 'ADMINISTRADOR' }} onLogout={vi.fn()} />);
 
@@ -148,7 +148,7 @@ describe('VínculoTEAFull Integration Tests', () => {
             });
         }, 20000);
 
-        it('navigates to Settings and User Management', async () => {
+        it('navigates to Settings and User Gerenciamento', async () => {
             const { Dashboard } = await import('@/components/Dashboard/Dashboard');
             render(<Dashboard user={{ id: 'u123', email: 'admin@test.com' }} onLogout={vi.fn()} />);
 

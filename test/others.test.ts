@@ -36,7 +36,7 @@ vi.mock('@supabase/supabase-js', async (importOriginal) => {
     };
 });
 
-describe('Notes and User Management Services', () => {
+describe('Notes and User Gerenciamento Services', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
