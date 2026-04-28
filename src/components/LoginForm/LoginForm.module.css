@@ -1,42 +1,38 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
   width: 100%;
 }
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .label {
-  color: #64748b;
-  font-size: 0.7rem;
+  color: #0f0c26;
+  font-size: 1.125rem;
   font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-left: 0.25rem;
+  margin-bottom: 0.35rem;
 }
 
 .input {
   width: 100%;
-  background-color: #f8fafc;
-  border: 1px solid transparent;
-  border-radius: 1.25rem;
-  padding: 1.15rem 1.5rem;
-  font-size: 0.95rem;
-  color: #0f172a;
+  background-color: #f1f5f9;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  font-size: 1rem;
+  color: #0f0c26;
   outline: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-weight: 600;
+  transition: all 0.2s;
+  font-weight: 500;
 }
 
 .input:focus {
-  background-color: #ffffff;
-  border-color: rgba(0, 65, 131, 0.2);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  background-color: #e2e8f0;
 }
 
 .inputContainer {
@@ -46,129 +42,118 @@
 
 .eyeButton {
   position: absolute;
-  right: 1.25rem;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  color: #94a3b8;
+  color: #64748b;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: color 0.2s;
   padding: 0;
 }
 
 .eyeButton:hover {
-  color: #0f172a;
+  color: #004183;
 }
 
 .passwordRow {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 1.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.passwordField {
+  flex: 1;
 }
 
 .rememberArea {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #64748b;
+  gap: 1rem;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #0f0c26;
   cursor: pointer;
   white-space: nowrap;
-  margin-bottom: 1.25rem;
-  transition: color 0.2s;
-}
-
-.rememberArea:hover {
-  color: #0f172a;
+  margin-top: 1.75rem;
 }
 
 .checkbox {
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 6px;
-  accent-color: #0f172a;
-  cursor: pointer;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 4px;
+  accent-color: #004183;
+  border: 2px solid #e2e8f0;
 }
 
 .forgotLink {
-  color: #64748b;
-  font-size: 0.8rem;
-  font-weight: 700;
+  color: #0f0c26;
+  font-size: 1.125rem;
+  font-weight: 800;
   text-decoration: none;
+  margin-top: -0.5rem;
+  display: inline-block;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: all 0.2s;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.forgotLink:hover {
-  color: #0f172a;
-  text-decoration: underline;
 }
 
 .submitBtn {
-  width: 100%;
-  background: #0f172a;
+  width: calc(100% + 40px);
+  margin-left: -20px;
+  background: linear-gradient(to right, #004183, #cce5ff);
   color: white;
-  padding: 1.25rem;
-  border-radius: 1.25rem;
-  font-weight: 900;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
+  padding: 1.35rem;
+  border-radius: 100px;
+  font-weight: 850;
+  font-size: 1.25rem;
   border: none;
   cursor: pointer;
   margin-top: 1rem;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+  transition: all 0.3s;
+  box-shadow: 0 12px 30px rgba(0, 65, 131, 0.25);
 }
 
 .submitBtn:hover {
-  transform: translateY(-3px) scale(1.01);
-  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.3);
-  background: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0, 65, 131, 0.3);
 }
 
 .errorText {
-  color: #ef4444;
-  font-size: 0.8rem;
-  font-weight: 700;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 600;
   text-align: center;
-  padding: 1rem;
-  background: #fff5f5;
-  border-radius: 1rem;
+  margin-top: -0.5rem;
 }
 
 .submitBtn:disabled {
-  opacity: 0.5;
+  opacity: 0.7;
   cursor: not-allowed;
   transform: none !important;
 }
 
+.submitArea {
+  width: 100%;
+}
+
 .signupText {
   text-align: center;
-  margin-top: 2rem;
-  font-size: 0.85rem;
-  color: #64748b;
-  font-weight: 600;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #000000;
+  font-weight: 500;
 }
 
 .signupLink {
-  color: #0f172a;
-  font-weight: 800;
+  color: #004183;
+  font-weight: 850;
   text-decoration: underline;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-.signupLink:hover {
-  color: #3b82f6;
 }
