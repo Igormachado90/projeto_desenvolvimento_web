@@ -66,6 +66,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ user: authUser, onLogout }
   const [showNotifications, setShowNotifications] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    return () => {
+      document.documentElement.classList.remove('dark');
+    };
+  }, [isDarkMode]);
+  
   const [realStats, setRealStats] = useState<DashboardStats>({
     alunosTotal: 0,
     alunosAtivos: 0,
@@ -212,8 +223,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ user: authUser, onLogout }
 
         <div className={styles.mainGridReference}>
           <div className={styles.atividadesCard}>
-            <div className={styles.atividadesHeader}>
-              <span className={styles.atividadesTitle}>Atividades Pendentes</span>
+            <div className={styles.cardHeaderRef}>
+              <h3 className={styles.cardTitleRef}>
+                <Clock size={18} className={styles.cardTitleIcon} style={{ color: '#435ebe' }} />
+                <span>Atividades Pendentes</span>
+              </h3>
             </div>
             <div className={styles.atividadesContent}>
               {recentPendencies.length > 0 ? (
@@ -235,11 +249,44 @@ export const Dashboard: React.FC<DashboardProps> = ({ user: authUser, onLogout }
           </div>
 
           <div className={styles.statusAlunosCard}>
-            <div className={styles.atividadesHeader}>
-              <span className={styles.atividadesTitle}>Status dos Alunos</span>
+            <div className={styles.cardHeaderRef}>
+              <h3 className={styles.cardTitleRef}>
+                <Activity size={18} className={styles.cardTitleIcon} style={{ color: '#004183' }} />
+                <span>Status dos Alunos</span>
+              </h3>
             </div>
             <div className={styles.statusContent}>
               <div className={styles.statusMainCircle}>
+                <svg className={styles.circleSvg} viewBox="0 0 120 120">
+                  {/* Track Circle */}
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="52"
+                    className={styles.circleTrack}
+                  />
+                  {/* Active Students Progress (Green) */}
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="52"
+                    className={styles.circleProgressActive}
+                    strokeDasharray={2 * Math.PI * 52}
+                    strokeDashoffset={2 * Math.PI * 52 * (1 - (realStats.alunosTotal > 0 ? realStats.alunosAtivos / realStats.alunosTotal : 0))}
+                  />
+                  {/* Observation Students Progress (Yellow) */}
+                  {realStats.alunosTotal > 0 && realStats.alunosObservacao > 0 && (
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="52"
+                      className={styles.circleProgressObs}
+                      strokeDasharray={2 * Math.PI * 52}
+                      strokeDashoffset={2 * Math.PI * 52 * (1 - realStats.alunosObservacao / realStats.alunosTotal)}
+                      transform={`rotate(${(realStats.alunosAtivos / realStats.alunosTotal) * 360 - 90} 60 60)`}
+                    />
+                  )}
+                </svg>
                 <div className={styles.circleValue}>
                   <span className={styles.circleNum}>{realStats.alunosTotal}</span>
                   <span className={styles.circleLabel}>TOTAL</span>

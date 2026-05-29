@@ -965,7 +965,7 @@ export const AdminView = () => {
                         {schoolSettings.Logo ? (
                           <img src={schoolSettings.Logo} alt="Logo" style={{ height: '50px', maxWidth: '120px', objectFit: 'contain' }} />
                         ) : (
-                          <div style={{ height: '50px', width: '50px', background: '#e2e8f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyCenter: 'center', fontSize: '10px', color: '#94a3b8' }}>LOGO</div>
+                          <div style={{ height: '50px', width: '50px', background: '#e2e8f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#94a3b8' }}>LOGO</div>
                         )}
                         <div style={{ borderLeft: '2px solid #e2e8f0', paddingLeft: '1.5rem' }}>
                           <h4 style={{ margin: 0, color: '#0f172a', fontSize: '1rem', fontWeight: 700 }}>{schoolSettings.Nome || 'NOME DA INSTITUIÇÃO'}</h4>
