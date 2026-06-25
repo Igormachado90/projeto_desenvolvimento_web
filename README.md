@@ -1,412 +1,434 @@
-   <h1 align="center">
-       VinculoTEA
-    <br />
-    <br />
-    <a href="https://github.com/StellaKarolinaNunes/VinculoTEA">
-     <img src="src/assets/images/Banner.png" alt="VínculoTEA Banner " width="100%">
-    </a>
-  </h1>
+<div align="center">
+
+# VínculoTEA
+
+### Plataforma multidisciplinar para gestão educacional inclusiva e acompanhamento de alunos com TEA
+
+<a href="https://github.com/StellaKarolinaNunes/VinculoTEA">
+  <img src="./src/assets/images/Banner.png" alt="Banner do projeto VínculoTEA" width="100%">
+</a>
+
+<br>
+
+<img src="https://img.shields.io/badge/React-18.2-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
+
+<img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+
+<img src="https://img.shields.io/badge/Vite-7.3-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
+
+<img src="https://img.shields.io/badge/Supabase-BaaS-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase">
+
+<img src="https://img.shields.io/badge/PostgreSQL-RLS-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+
+<img src="https://img.shields.io/badge/Status-Em%20desenvolvimento-F59E0B?style=for-the-badge" alt="Status do projeto">
+
+<br><br>
+
+<p align="center">
+  <a href="https://github.com/StellaKarolinaNunes/VinculoTEA">
+    <img src="https://img.shields.io/badge/⌘%20Explorar%20Código--Fonte-181717?style=for-the-badge&logo=github&logoColor=white" alt="Explorar Código-Fonte">
+  </a>
+  <a href="./fluxograma/FLUXOGRAMA.md">
+    <img src="https://img.shields.io/badge/◈%20Ver%20Fluxograma%20do%20Sistema-3178C6?style=for-the-badge&logo=diagram&logoColor=white" alt="Ver Fluxograma do Sistema">
+  </a>
+</p>
 
 </div>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/React-18.2-61DAFB?logo=react&logoColor=white" alt="React" />
-  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Vite-7.3-646CFF?logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/Supabase-BaaS-3ECF8E?logo=supabase&logoColor=white" alt="Supabase" />
-  <img src="https://img.shields.io/badge/PostgreSQL-RLS-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/License-Proprietary-red" alt="License" />
-</p>
+---
+
+## Sobre o projeto
+
+O **VínculoTEA** é uma plataforma de gestão multidisciplinar voltada à educação inclusiva e ao acompanhamento de alunos com Transtorno do Espectro Autista.
+
+A aplicação centraliza informações pedagógicas, administrativas e de acompanhamento em um único ambiente, permitindo que escolas, profissionais, famílias e responsáveis tenham acesso organizado aos dados necessários para apoiar a jornada educacional do aluno.
+
+O projeto foi desenvolvido com foco em organização institucional, proteção de dados, acessibilidade, comunicação entre profissionais e acompanhamento individualizado por meio de recursos como prontuário centralizado, Plano Educacional Individualizado, agenda, relatórios e controle de acesso por perfil.
+
+> Este projeto foi desenvolvido para fins educacionais, de pesquisa e portfólio, com foco em educação inclusiva, gestão de dados sensíveis, arquitetura de aplicações web e experiência do usuário.
 
 ---
 
-> **Documentação de Deploy**: Para configurar e visualizar a documentação do projeto localmente, siga o guia de deploy disponível na seção [Documentação de Deploy](#documentação-de-deploy). Nela você encontrará os passos para instalar o Mintlify, executar o ambiente de documentação e acessar a interface no navegador.
+## Objetivo
 
+O VínculoTEA busca reduzir a fragmentação de informações entre escola, família e profissionais que acompanham alunos com TEA.
 
----
+Em muitos contextos, dados importantes ficam espalhados entre documentos físicos, mensagens, planilhas e relatórios separados. Isso dificulta o acompanhamento contínuo, aumenta o risco de perda de informações e pode atrasar decisões pedagógicas importantes.
 
-##  Introdução
-**VinculoTEA** é uma plataforma de gestão multidisciplinar para educação inclusiva, desenvolvida para facilitar a comunicação e o acompanhamento de alunos com Transtorno do Espectro Autista (TEA). O aplicativo utiliza uma interface multimodal com vídeos em Libras e fluxos intuitivos, garantindo autonomia ao aluno e clareza diagnóstica para os profissionais de saúde. Esta documentação fornece detalhes sobre o funcionamento, instalação e diretrizes do projeto.
-
-
-<br>
-
-## Por que VinculoTEA?
-A educação inclusiva é um direito fundamental, mas para alunos com Transtorno do Espectro Autista (TEA), o ambiente escolar muitas vezes se torna um espaço de exclusão. Na ausência de ferramentas acessíveis durante a triagem, o aluno é forçado a enfrentar o ruído clínico e a perda de sua autonomia. Essa falha de comunicação não apenas gera ansiedade e isolamento, mas escala para riscos reais: diagnósticos imprecisos e atrasos críticos no atendimento que podem comprometer desfechos clínicos.
-
-<br>
-
-## A Solução
- 
-*  **Prontuário Centralizado** | Histórico clínico e pedagógico unificado por aluno 
-*  **PEI Automatizado** | Criação assistida com wizard de múltiplas etapas e validação integrada 
-*  **Central de Relatórios** | Dashboards com estatísticas em tempo real por aluno, profissional e escola 
-*  **Agenda Integrada** | Agendamento e acompanhamento de atendimentos multidisciplinares 
-*  **Gestão Administrativa** | Gerenciamento completo de escolas, turmas e profissionais 
-*  **Controle de Acesso** | RBAC granular com isolamento total via Plataforma_ID (Multi-tenancy) 
- 
- <br>
- 
- ## Planos e Precificação (SaaS)
- 
- O **VínculoTEA** foi desenhado para escalar de profissionais autônomos a grandes redes de ensino:
- 
- *   **Plano Essencial**: Focado em profissionais independentes (psicólogos, fonoaudiólogos).
- *   **Plano Institucional**: Gestão completa para escolas e clínicas multidisciplinares.
- *   **Plano Redes (Enterprise)**: Visão consolidada para secretarias de educação e grandes grupos.
-
- >  **Fluxograma do Projeto**: Caso queira entender a lógica de navegação e processos do aplicativo, acesse o arquivo [fluxograma/FLUXOGRAMA.md](fluxograma/FLUXOGRAMA.md).
-
- <br>
-
- ## Funcionalidades Principais
-
-#### * Gestão de Alunos
-- Cadastro completo com dados pessoais, CID, gênero e detalhes clínicos
-- Vinculação com família, escola e turma
-- Upload de foto e documentação
-- Histórico de PEIs e acompanhamentos
-
-#### * Gestão de Alunos & PEI
-- **Student Registration Wizard**: Processo guiado de múltiplas etapas para novos cadastros (Dados, Família, Escola/Saúde).
-- **Wizard de PEI**: Elaboração assistida do Plano Educacional Individualizado com validação em tempo real.
-- Definição de metas de curto e longo prazo com indicadores de progresso.
-- Registro de pontos fortes, barreiras e estratégias personalizadas.
-- Exportação em PDF com formatação profissional e cabeçalho institucional.
-
-#### * Central de Relatórios
-- **Relatório Geral**: Visão consolidada com total de alunos, atendimentos e horas
-- **Relatório Individual**: Frequência, evolução, atividades domiciliares e orientações
-- Estatísticas por profissional e por aluno
-- Exportação em PDF com cabeçalho institucional
-
-#### * Gestão Administrativa
-- Cadastro e gerenciamento de escolas da rede
-- Gestão de turmas com turno e ano letivo
-- Cadastro de professores e profissionais de saúde
-- Gestão dinâmica de disciplinas e especialidades com controle de acesso
-- Dashboard administrativo com indicadores de rede
-
-#### * Agenda de Atendimentos
-- Calendário visual com navegação por mês
-- Agendamento vinculado a profissional e aluno
-- Classificação por tipo de evento (Normal, Importante, Agendamento)
-- Acompanhamento de status dos atendimentos
-
-#### * Segurança e Controle de Acesso
-- Autenticação via Supabase Auth com JWT
-- Row Level Security (RLS) em todas as tabelas
-- Isolamento de dados por plataforma (multi-tenancy)
-- Permissões baseadas em papel com 4 níveis de acesso
-
-### Controle de Acesso (RBAC)
-A plataforma utiliza **Role-Based Access Control** para garantir a integridade dos dados sensíveis dos alunos:
-*   **Isolamento de Dados**: Cada instituição opera em um ambiente isolado via `Plataforma_ID`.
-*   **Segurança a nível de linha**: As políticas de RLS garantem que um usuário nunca acesse dados fora de sua permissão.
-
-### Níveis de Acesso e Gestão
-| Permissão | Admin | Profissional | Tutor | Família |
-| :--- | :---: | :---: | :---: | :---: |
-| Visualizar Alunos | ✅ | ✅ | ✅ | ✅* |
-| Editar Alunos | ✅ | ✅ | ❌ | ❌ |
-| Gestão Administrativa | ✅ | ✅** | ❌ | ❌ |
-| Gerenciar Escolas | ✅ | ❌ | ❌ | ❌ |
-| Central de Relatórios | ✅ | ✅ | ✅ | ✅* |
-| Configurações/Usuários | ✅ | ❌ | ❌ | ❌ |
-
-
-> **Dica de Inclusão**: É possível ativar múltiplos modos simultaneamente para criar um ambiente híbrido e personalizado.  *\* Apenas dados dos próprios filhos — \*\* Acesso parcial*
-
- ---
-
- ##  Estrutura de Pastas
-
-```
-src/
-├── assets/                    # Imagens e recursos estáticos
-│   └── images/                # Logotipos e ícones da marca
-├── components/                # Componentes da Interface
-│   ├── Auth/                  # Autenticação (Login, Registro)
-│   ├── Dashboard/             # Módulos Principais
-│   │   ├── Students/          # Gestão de Alunos
-│   │   │   ├── components/    # AgendaView, StudentDetailView
-│   │   │   ├── Tabs/          # PEIsTab, DisciplinesTab, NotesTab
-│   │   │   └── wizards/       # PEIWizard, StudentRegistrationWizard
-│   │   ├── Gerenciamento/        # Gestão Administrativa
-│   │   │   └── tabs/          # SchoolsTab, TeachersTab, ClassesTab
-│   │   ├── Reports/           # Central de Relatórios
-│   │   ├── Discipline/        # Gestão de Disciplinas
-│   │   ├── Settings/          # Configurações e Usuários
-│   │   └── Dashboard.tsx      # Layout principal e navegação
-│   └── Erro/                  # Tratamento de erros (ErrorBoundary)
-├── lib/                       # Camada de Serviços
-│   ├── supabase.ts            # Cliente Supabase configurado
-│   ├── useAuth.ts             # Hook de autenticação e permissões
-│   ├── studentService.ts      # CRUD de alunos, famílias e profissionais
-│   ├── schoolsService.ts      # CRUD de escolas
-│   ├── classesService.ts      # CRUD de turmas
-│   ├── disciplinesService.ts  # CRUD de disciplinas
-│   ├── userService.ts         # Gestão de contas de usuário
-│   └── peisService.ts         # CRUD de planos PEI
-├── styles/                    # Design System (CSS Modules)
-└── App.tsx                    # Entry point e roteamento
-```
-
-### Modelo de Dados
-
-```
-Plataformas ──┬── Escolas ──┬── Turmas
-              │             ├── Professores ── Agenda
-              │             └── Alunos ──┬── PEIs
-              ├── Familias               ├── Acompanhamentos
-              ├── Disciplinas            └── Anotacoes
-              └── Usuarios
-```
-
-<br>
- 
-
-##  Instalação
-
-### Pré-requisitos para Rodar VinculoTEA na sua Máquina 
-
-* 1.  **Node.js**: Versão **18.x** ou superior (recomendado **20.x LTS** para estabilidade).
-* 2.  **Gerenciador de Pacotes**: `npm`, `yarn` ou `pnpm` (O projeto utiliza `package.json`).
-* 3.  **Git**: Para clonar o repositório do projeto.
-* 4.  **Conta no Supabase**: Você precisará de um projeto ativo no [Supabase](https://supabase.com/) para as funcionalidades de Banco de Dados e Autenticação.
-
-<br>
-
-### Tecnologias utilizadas
-
-*   **Frontend**: React 18.2
-*   **Build Tool**: Vite 7.3
-*   **Linguagem**: TypeScript 5.9
-*   **Backend (BaaS)**: Supabase 2.91
-*   **Banco de Dados**: PostgreSQL 17
-*   **Animações**: Framer Motion 12.x
-*   **Ícones**: Lucide React 0.284
-*   **PDF**: jsPDF + AutoTable 5.0
-*   **Testes Unitários**: Vitest + Testing Library 4.0
-*   **Testes E2E**: Playwright 1.58
-
-<br>
-
-### Configuração Inicial
-
-Antes de rodar o comando de instalação, você precisará configurar as variáveis de ambiente:
-
-* 1.  Copie o arquivo `.env.example` para um novo arquivo chamado `.env`:
-    ```bash
-    cp .env.example .env
-    ```
-* 2.  Abra o arquivo `.env` e preencha com as suas credenciais do projeto Supabase (`SUPABASE_URL` e `SUPABASE_ANON_KEY`).
+A plataforma propõe um ambiente centralizado para registrar informações, acompanhar metas, organizar atendimentos, estruturar PEIs e gerar relatórios de forma mais clara e segura.
 
 ---
 
-###  Instalação Rápida
+## Funcionalidades
 
-####  1. Clone o repositório
+### Gestão de alunos
+
+* **Cadastro completo:** registro de dados pessoais, informações clínicas, CID, gênero e observações relevantes.
+* **Vinculação institucional:** associação entre aluno, família, escola, turma e profissionais responsáveis.
+* **Documentação organizada:** upload de foto, documentos e registros relacionados ao acompanhamento.
+* **Histórico individual:** visualização de PEIs, anotações, atendimentos e evolução do aluno.
+
+### Plano Educacional Individualizado
+
+* **Wizard de cadastro:** fluxo guiado para criação de novos alunos.
+* **Wizard de PEI:** elaboração assistida do Plano Educacional Individualizado.
+* **Metas pedagógicas:** definição de objetivos de curto e longo prazo.
+* **Indicadores de progresso:** acompanhamento visual da evolução do aluno.
+* **Estratégias personalizadas:** registro de pontos fortes, barreiras e orientações de apoio.
+* **Exportação em PDF:** geração de documentos com estrutura institucional.
+
+### Central de relatórios
+
+* **Relatório geral:** visão consolidada de alunos, atendimentos e horas registradas.
+* **Relatório individual:** acompanhamento de frequência, evolução, atividades e orientações.
+* **Estatísticas institucionais:** dados organizados por aluno, profissional, turma e escola.
+* **Exportação em PDF:** documentos preparados para impressão e compartilhamento institucional.
+
+### Gestão administrativa
+
+* **Gestão de escolas:** cadastro e organização de instituições da rede.
+* **Gestão de turmas:** controle por turno, ano letivo e instituição.
+* **Profissionais e professores:** cadastro de membros da equipe multidisciplinar.
+* **Disciplinas e especialidades:** gerenciamento de áreas pedagógicas e clínicas.
+* **Dashboard administrativo:** indicadores gerais para gestores e responsáveis pela plataforma.
+
+### Agenda de atendimentos
+
+* **Calendário visual:** navegação por mês e visualização de compromissos.
+* **Agendamento por aluno:** atendimentos vinculados a aluno e profissional responsável.
+* **Tipos de evento:** classificação por atendimento, atividade, evento importante ou agendamento.
+* **Acompanhamento de status:** monitoramento dos atendimentos realizados e pendentes.
+
+### Segurança e controle de acesso
+
+* **Autenticação segura:** login com Supabase Auth e JWT.
+* **Permissões por perfil:** controle de acesso baseado em funções.
+* **Multi-tenancy:** separação de dados entre instituições por `Plataforma_ID`.
+* **Row Level Security:** políticas de banco de dados para impedir acessos indevidos.
+* **Proteção de dados sensíveis:** estrutura orientada à privacidade e ao controle institucional.
+
+---
+
+## Níveis de acesso
+
+| Permissão             | Administrador | Profissional | Tutor | Família |
+| --------------------- | :-----------: | :----------: | :---: | :-----: |
+| Visualizar alunos     |       ✅       |       ✅      |   ✅   |    ✅*   |
+| Editar alunos         |       ✅       |       ✅      |   ❌   |    ❌    |
+| Gerenciar escolas     |       ✅       |       ❌      |   ❌   |    ❌    |
+| Gestão administrativa |       ✅       |      ✅**     |   ❌   |    ❌    |
+| Acessar relatórios    |       ✅       |       ✅      |   ✅   |    ✅*   |
+| Gerenciar usuários    |       ✅       |       ❌      |   ❌   |    ❌    |
+| Criar e editar PEI    |       ✅       |       ✅      |  ✅**  |    ❌    |
+| Visualizar agenda     |       ✅       |       ✅      |   ✅   |    ✅*   |
+
+> `*` A família acessa somente os dados relacionados aos próprios filhos.
+> `**` Acesso parcial conforme permissões definidas pela instituição.
+
+---
+
+## Tecnologias utilizadas
+
+| Tecnologia         | Aplicação no projeto                            |
+| ------------------ | ----------------------------------------------- |
+| React              | Construção da interface web                     |
+| TypeScript         | Tipagem estática e organização do código        |
+| Vite               | Ambiente de desenvolvimento e build             |
+| Supabase           | Autenticação, banco de dados e serviços backend |
+| PostgreSQL         | Persistência dos dados                          |
+| Row Level Security | Proteção e isolamento de dados no banco         |
+| Framer Motion      | Animações e transições                          |
+| Lucide React       | Biblioteca de ícones                            |
+| jsPDF              | Geração de documentos PDF                       |
+| jsPDF AutoTable    | Construção de tabelas nos relatórios            |
+| Vitest             | Testes unitários                                |
+| Testing Library    | Testes de componentes                           |
+| Playwright         | Testes de ponta a ponta                         |
+| Git                | Controle de versão                              |
+
+---
+
+## Destaques técnicos
+
+* Arquitetura organizada por módulos, componentes e serviços;
+* Separação entre interface, regras de negócio e integração com banco de dados;
+* Controle de acesso baseado em papéis;
+* Estrutura multi-institucional com isolamento de dados;
+* Uso de Row Level Security no PostgreSQL;
+* Serviços específicos para alunos, escolas, turmas, usuários e PEIs;
+* Componentes reutilizáveis para dashboards, formulários e fluxos de cadastro;
+* Geração de relatórios institucionais em PDF;
+* Estrutura preparada para testes unitários e testes E2E;
+* Organização preparada para expansão futura com aplicativo mobile e integrações externas.
+
+---
+
+## Estrutura do projeto
 
 ```bash
+VinculoTEA/
+├── src/
+│   ├── assets/
+│   │   └── images/
+│   │       └── Banner.png
+│   │
+│   ├── components/
+│   │   ├── Auth/
+│   │   ├── Dashboard/
+│   │   │   ├── Students/
+│   │   │   │   ├── components/
+│   │   │   │   ├── tabs/
+│   │   │   │   └── wizards/
+│   │   │   │
+│   │   │   ├── Gerenciamento/
+│   │   │   │   └── tabs/
+│   │   │   │
+│   │   │   ├── Reports/
+│   │   │   ├── Discipline/
+│   │   │   ├── Settings/
+│   │   │   └── Dashboard.tsx
+│   │   │
+│   │   └── Error/
+│   │       └── ErrorBoundary.tsx
+│   │
+│   ├── lib/
+│   │   ├── supabase.ts
+│   │   ├── useAuth.ts
+│   │   ├── studentService.ts
+│   │   ├── schoolsService.ts
+│   │   ├── classesService.ts
+│   │   ├── disciplinesService.ts
+│   │   ├── userService.ts
+│   │   └── peisService.ts
+│   │
+│   ├── styles/
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── supabase/
+│   ├── migrations/
+│   └── functions/
+│
+├── public/
+├── tests/
+├── fluxograma/
+│   └── FLUXOGRAMA.md
+│
+├── .env.example
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+├── README.md
+└── LICENSE
+```
 
+> Arquivos gerados durante o build, como `node_modules/`, `dist/` e arquivos locais `.env`, não devem ser versionados no Git.
+
+---
+
+## Modelo de dados
+
+```text
+Plataformas
+│
+├── Escolas
+│   ├── Turmas
+│   ├── Professores
+│   └── Alunos
+│       ├── PEIs
+│       ├── Acompanhamentos
+│       ├── Agenda
+│       └── Anotações
+│
+├── Famílias
+├── Disciplinas
+├── Profissionais
+└── Usuários
+```
+
+---
+
+## Como executar o projeto
+
+### Pré-requisitos
+
+Antes de iniciar, é necessário ter instalado:
+
+* Node.js `18.x` ou superior;
+* npm, yarn ou pnpm;
+* Git;
+* Conta ativa no Supabase;
+* VS Code ou outro editor compatível com React e TypeScript.
+
+### 1. Clone o repositório
+
+```bash
 git clone https://github.com/StellaKarolinaNunes/VinculoTEA.git
 ```
 
-####  2. Abra o projeto no seu editor
+### 2. Acesse a pasta do projeto
 
 ```bash
-
 cd VinculoTEA
 ```
 
-### 3. Configuração de Ambiente
+### 3. Instale as dependências
 
-Para uma experiência de desenvolvimento completa e padronizada, recomendamos a seguinte configuração:
+```bash
+npm install
+```
 
-*   **Node.js LTS**: Utilize o [NVM](https://github.com/nvm-sh/nvm) ou [FNM](https://github.com/Schniz/fnm) para gerenciar versões do Node (v18 ou superior).
-*   **VS Code (Recomendado)**: Utilize as seguintes extensões para maior produtividade:
-*   **ES7+ React/Redux/React-Native snippets**: Snippets de código para React.
-*   **Tailwind CSS IntelliSense**: Autoclean de classes Tailwind.
-*   **Prettier**: Padronização automática de formatação.
-*   **ESLint**: Identificação de erros e convenções de código.
-*   **PostCSS Language Support**: Melhor visualização de arquivos CSS.
-*   **Supabase CLI**: Essencial caso você precise sincronizar migrações locais ou gerenciar **Edge Functions** (localizadas em `/supabase/functions`).
- 
- > Siga o guia oficial de [instalação do CLI](https://supabase.com/docs/guides/cli).
+### 4. Configure as variáveis de ambiente
 
+Crie um arquivo `.env` baseado no arquivo `.env.example`.
 
-### 4. Adicione as chaves de API
+```bash
+cp .env.example .env
+```
+
+No Windows, você pode copiar manualmente o arquivo `.env.example` e renomeá-lo para `.env`.
+
+Adicione as credenciais do seu projeto Supabase:
 
 ```ini
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_ANON_KEY=sua-chave-anonima
 ```
- 
-### 5. Instalação de Dependências
+
+> Nunca envie o arquivo `.env` para o GitHub. Ele pode conter informações sensíveis do ambiente.
+
+### 5. Execute a aplicação
 
 ```bash
- npm install
+npm run dev
 ```
 
-### 6. Execute o aplicativo
+Depois, acesse o endereço exibido no terminal, normalmente:
+
+```text
+http://localhost:5173
+```
+
+---
+
+## Scripts disponíveis
 
 ```bash
-c
+npm run dev
 ```
 
-### 7. Scripts Disponíveis
-
-*  `npm install`: Atualiza pacotes.
-*  `npm run dev`: Executa o aplicativo em modo de desenvolvimento.
-*  `npm run build`: Compila o aplicativo para produção.
-*  `npm run test`: Executa os testes unitários.
-*  `npm run lint`: Verifica o código em busca de erros e problemas de estilo.
-
-> **Saiba mais**: Acesse o site oficial da documentação React para guias completos: [ documentação do React ](https://react.dev/)
-
-<br>
-
-## Documentação de Deploy
-
-O deploy da VinculoTEA segue práticas de entrega contínua:
-
-###  1. Instalar o CLI do Mintlify
-Abra o seu terminal e execute o comando abaixo para instalar o Mintlify globalmente:
+Inicia o projeto em ambiente de desenvolvimento.
 
 ```bash
-npm i -g mintlify
+npm run build
 ```
 
-### 2. Navegar até a pasta e Rodar
-Como você já está na pasta docs-mintlify, basta rodar:
+Gera a versão de produção da aplicação.
 
 ```bash
-mintlify dev
+npm run preview
 ```
 
-### 3. Acessar no Navegador (local)
+Executa localmente a versão compilada para produção.
 
 ```bash
-http://localhost:port
+npm run test
 ```
 
-Dica: Se você não quiser instalar globalmente, pode usar o npx:
+Executa os testes unitários.
 
 ```bash
-npx mintlify dev
+npm run lint
 ```
 
-Nota sobre o arquivo: O seu projeto está usando docs.json. Se o comando mintlify dev reclamar que não encontrou o arquivo de configuração, você pode tentar renomear o docs.json para mint.json, que é o nome padrão esperado por algumas versões do CLI.
+Verifica problemas de padrão e qualidade de código.
 
-> **Saiba mais**: Acesse o site oficial da documentação para guias completos: [ documentação do mintlify ](https://www.mintlify.com/docs)
+---
 
- <br>
+## Roadmap
 
-##  Roadmap
+### Em desenvolvimento
 
-Atualmente estamos trabalhando nas seguintes frentes para tornar o **VínculoTEA** a ferramenta definitiva para educação inclusiva:
+* [ ] Central de relatórios com geração avançada de PDF;
+* [ ] Dashboard analítico para gestores;
+* [ ] Agenda digital completa com filtros e notificações;
+* [ ] Melhorias no fluxo de criação de PEIs;
+* [ ] Sistema de notificações para prazos e revisões;
+* [ ] Otimização de performance em telas com grande volume de dados;
+* [ ] Melhorias de acessibilidade e navegação por teclado.
 
-###  Em Desenvolvimento (v1.1.0 - Curto Prazo)
-- [ ] **Central de Relatórios**: Geração de PDFs profissionais com cabeçalho institucional e estatísticas.
-- [ ] **Dashboard Analítico**: Visão consolidada para gestores sobre o progresso da rede.
-- [ ] **Sistema de Notificações**: Alertas via e-mail para prazos de entrega e revisões de PEI.
-- [ ] **Agenda Digital**: Calendário integrado para atendimentos multidisciplinares.
+### Próximos passos
 
-###  Futuro (Longo Prazo)
-- [ ] **Portal da Família**: Área dedicada para pais acompanharem o progresso e receberem documentos.
-- [ ] **App Mobile Offline**: Aplicativo nativo com suporte a registro de dados sem internet.
-- [ ] **IA de Apoio Pedagógico**: Assistente inteligente para sugestão de estratégias baseadas em perfil clínico.
-- [ ] **Integração WhatsApp**: Notificações automáticas de eventos e documentos finalizados.
+* [ ] Portal da família para acompanhamento dos alunos;
+* [ ] Aplicativo mobile com suporte offline;
+* [ ] Integração com WhatsApp para notificações;
+* [ ] Assistente de IA para apoio pedagógico;
+* [ ] Exportação avançada de relatórios;
+* [ ] Histórico detalhado de atividades por aluno;
+* [ ] Dashboard específico para profissionais;
+* [ ] Integração com calendários externos.
 
-<br>
+---
 
- ##  Contribuição
-Contribuições são muito bem-vindas! Siga estes passos:
+## Contribuição
 
-### Como Contribuir
-1. **Fork** este repositório
-2. **Clone** seu fork localmente
-3. **Crie** uma branch para sua feature: `git checkout -b feature/nova-funcionalidade`
-4. **Faça** suas alterações e commits
-5. **Teste** suas modificações
-6. **Abra** um Pull Request detalhado
+Contribuições são bem-vindas.
 
-<br>
+```bash
+# Faça um fork do projeto
 
-###  Diretrizes
+# Crie uma branch para sua funcionalidade
+git checkout -b feature/nova-funcionalidade
 
-- Código limpo e bem comentado
-- Mensagens de commit claras e objetivas
-- Teste todas as funcionalidades
-- Mantenha a documentação atualizada
-- Siga os padrões de código existentes
+# Faça suas alterações
+git add .
 
-<br>
+# Crie um commit descritivo
+git commit -m "feat: adiciona nova funcionalidade"
 
-##  Licença
-
-Este projeto está licenciado sob a [Licença MIT](LICENSE).
-
-``` bash
-MIT License - você pode usar, modificar e distribuir livremente,
-mantendo a referência ao repositório original.
+# Envie sua branch
+git push origin feature/nova-funcionalidade
 ```
 
- <br>
+Depois, abra um Pull Request explicando as alterações realizadas.
 
- ## Contato
+### Diretrizes
 
- Se você tiver dúvidas, sugestões ou quiser saber mais sobre o projeto, entre em contato:
+* Mantenha o código organizado e legível;
+* Utilize TypeScript sempre que possível;
+* Preserve a separação entre componentes, serviços e estilos;
+* Evite lógica complexa diretamente nos componentes visuais;
+* Teste novas funcionalidades antes de abrir um Pull Request;
+* Não envie chaves de API, arquivos `.env` ou credenciais para o repositório;
+* Atualize a documentação quando uma funcionalidade importante for adicionada.
 
- - **Principais Desenvolvedores:** [Stella Karolina](https://github.com/StellaKarolinaNunes)
- - **Repositório:** [VinculoTEA no GitHub](https://github.com/StellaKarolinaNunes/VinculoTEA)
- - **LinkedIn:** [Stella Karolina Nunes](https://www.linkedin.com/in/stella-karolina/)
+---
 
- <br>
+## Licença
 
- ## Créditos
+Este projeto possui licença proprietária.
 
- O **VínculoTEA** é construído com o apoio de tecnologias e comunidades incríveis que possibilitam a educação inclusiva:
+```text
+Todos os direitos reservados.
 
- - **Framework:** [React 18](https://reactjs.org/) & [Vite](https://vitejs.dev/)
- - **Backend (BaaS):** [Supabase](https://supabase.com/) (Auth, Database & RLS)
- - **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
- - **Ícones:** [Lucide React](https://lucide.dev/)
- - **Animações:** [Framer Motion](https://www.framer.com/motion/)
- - **Relatórios:** [jsPDF](https://github.com/parallax/jsPDF) & [jsPDF-AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable)
- - **Testes:** [Vitest](https://vitest.dev/) & [Playwright](https://playwright.dev/)
- - **Tipografia:** [Inter Font Family](https://fonts.google.com/specimen/Inter)
+O código-fonte, identidade visual, estrutura de dados e documentação
+não podem ser utilizados, distribuídos ou modificados sem autorização
+prévia dos responsáveis pelo projeto.
+```
 
- <br>
+---
 
-### Desenvolvimento Principal
+## Créditos
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/StellaKarolinaNunes">
-        <img src="https://github.com/StellaKarolinaNunes.png" width="100px" alt="Stella Karolina"/>
-        <br />
-        <sub><b>Stella Karolina (Desenvolvedora)</b></sub>
-        <br />
-      </a>
-    </td>
-  </tr>
-</table>
-
-### Equipe
-
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/AlineCely">
-        <img src="https://github.com/AlineCely.png" width="100px" alt="Aline Cely"/>
-        <br />
-        <sub><b>Aline Cely</b></sub>
-        <br />
-      </a>
-    </td>
-  </tr>
-</table>
-
+* **Desenvolvimento principal:** [Stella Karolina Nunes](https://github.com/StellaKarolinaNunes)
+* **Equipe:** [Aline Cely](https://github.com/AlineCely)
+* **Framework:** [React](https://react.dev/)
+* **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
+* **Build Tool:** [Vite](https://vite.dev/)
+* **Backend e autenticação:** [Supabase](https://supabase.com/)
+* **Banco de dados:** [PostgreSQL](https://www.postgresql.org/)
+* **Animações:** [Framer Motion](https://www.framer.com/motion/)
+* **Ícones:** [Lucide React](https://lucide.dev/)
+* **Relatórios em PDF:** [jsPDF](https://github.com/parallax/jsPDF) e [jsPDF AutoTable](https://github.com/simonbengtsson/jsPDF-AutoTable)
+* **Testes:** [Vitest](https://vitest.dev/), Testing Library e [Playwright](https://playwright.dev/)
+* **Tipografia:** [Inter](https://fonts.google.com/specimen/Inter)
