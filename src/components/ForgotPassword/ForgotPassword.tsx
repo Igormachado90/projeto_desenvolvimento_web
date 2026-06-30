@@ -1,5 +1,4 @@
 import { useState } from 'react'
- 
 import { Mail, ArrowLeft, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -19,17 +18,19 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBack, onSucces
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-
+    const data = { email };
+    console.log(data);
+    
     try {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}`,
+      const { data: linkReset, error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
       });
+      console.log(linkReset);
 
       if (resetError) {
         setError(resetError.message);
       } else {
         setSuccess(true);
-
 
         setTimeout(() => {
           onSuccess();

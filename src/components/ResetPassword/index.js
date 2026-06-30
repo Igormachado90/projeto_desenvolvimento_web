@@ -1,4 +1,3 @@
- 
 export * from './ResetPassword';
-export { ResetPassword } from './ResetPassword';
- 
+export { ResetPasswordPage } from './ResetPasswordPage';
+export { default as ResetPassword } from './ResetPassword';

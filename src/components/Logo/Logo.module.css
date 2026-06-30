@@ -9,3 +9,18 @@
   height: 100px;
   object-fit: contain;
 }
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .image {
+    width: 140px;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image {
+    width: 120px;
+    min-width: 80px;
+  }
+}

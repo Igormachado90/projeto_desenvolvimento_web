@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import { Lock, Loader2, CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -20,6 +19,8 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ onSuccess }) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    const data = { password, confirmPassword };
+    console.log(data);
 
     if (password !== confirmPassword) {
       setError('As senhas não coincidem.');
@@ -34,9 +35,11 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ onSuccess }) => {
     }
 
     try {
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: password
+      const { data, error: updateError } = await supabase.auth.updateUser({
+        password: password,
       });
+
+      console.log("Data: ", data.user)
 
       if (updateError) {
         setError(updateError.message);

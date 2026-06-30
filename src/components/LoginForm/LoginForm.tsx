@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './LoginForm.module.css';
 import { supabase } from '../../lib/supabase';
 import { Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormProps {
   onForgotPassword: () => void;
@@ -14,6 +15,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
   
   // Carregar e-mail salvo se existir
   useEffect(() => {
@@ -28,11 +30,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    
+    console.log({ email, password });
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
+    console.log(data);
 
     if (error) {
       setError(error.message === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error.message);
@@ -44,6 +50,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
       } else {
         localStorage.removeItem('remembered_email');
       }
+      navigate('/dashboard');
     }
   };
 
@@ -112,7 +119,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
       </div>
 
       <p className={styles.signupText}>
-        Ainda não faz parte? <span className={styles.signupLink}>solicite uma demonstração</span>
+        Ainda não faz parte? <span className={styles.signupLink} onClick={() => navigate('/cadastro')}>solicite uma demonstração</span>
       </p>
     </form>
   );
