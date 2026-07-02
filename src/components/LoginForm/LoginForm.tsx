@@ -38,7 +38,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
       password,
     });
 
-    console.log(data);
+    console.log("Informe seus dados:", data);
 
     if (error) {
       setError(error.message === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error.message);
