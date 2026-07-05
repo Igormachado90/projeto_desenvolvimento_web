@@ -30,21 +30,26 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setError(null);
     
-    console.log({ email, password });
-
+    console.log("[LOGIN] Iniciando autenticação...");
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    console.log("Informe seus dados:", data);
-
+    // console.log("[LOGIN] Informe seus dados:", data);
+    
     if (error) {
+      console.error("[LOGIN] Erro:", error.message);
       setError(error.message === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error.message);
       setLoading(false);
     } else {
       // Login sucesso - Gerenciar "Lembre-se"
+      console.log("[LOGIN] Usuário:", data.user.email);
+      console.log("[LOGIN] ID do Usuário:", data.user.id);
+      console.log("[LOGIN] JWT gerado:", data.session?.access_token);
+      console.log("[LOGIN] Usuário autenticado com sucesso.");
       if (rememberMe) {
         localStorage.setItem('remembered_email', email);
       } else {

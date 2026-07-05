@@ -44,6 +44,13 @@ const App: React.FC = () => {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
+
+        console.log("✅ Sessão encontrada.");
+        console.log("[SESSION] Usuário:", session?.user.email);
+        console.log("[SESSION] User ID:", session?.user.id);
+        console.log("[SESSION] Access Token:", session?.access_token);
+        console.log("[SESSION] Refresh Token:", session?.refresh_token);
+
         setUser(session.user);
         if (location.pathname === '/' || location.pathname === '/login') {
           navigate('/dashboard');

@@ -112,23 +112,37 @@ export const usersService = {
     },
 
     async create(user: UserData & { senha?: string }) {
-        console.log('🚀 Iniciando criação de usuário...', { 
-            email: user.email, 
-            tipo: user.tipo 
+        // =====================================================
+        // ETAPA 1 - Início do cadastro
+        // =====================================================
+        console.log("[CADASTRO] Iniciando criação de usuário...");
+        console.log("Dados recebidos:", {
+            nome: user.nome,
+            email: user.email,
+            tipo: user.tipo
         });
+
+        // Validação dos campos obrigatórios
         if (!user.senha) throw new Error('A senha é obrigatória para criar um novo acesso.');
         if (!user.email) throw new Error('O e-mail é obrigatório.');
         if (!user.nome) throw new Error('O nome é obrigatório.');
 
-        // 1. Verificar se usuário já existe banco
+        // =====================================================
+        // ETAPA 2 - Verificar se o usuário já existe
+        // =====================================================
+        console.log("[VERIFICAÇÃO] Verificando e-mail no banco...");
         const exists = await checkUserExists(user.email);
         if (exists) {
-            throw new Error('Este e-mail já está cadastrado no sistema.');
+            console.warn("E-mail já cadastrado.");
+            throw new Error("Este e-mail já está cadastrado no sistema.");
         }
+        console.log("✅ E-mail disponível.");
 
         try {
-            // 2. Criar usuário Auth do Supabase
-            console.log('📝 Criando usuário no Auth...');
+            // =====================================================
+            // ETAPA 3 - Criar usuário no Supabase Auth
+            // =====================================================
+            console.log("[AUTH] Criando usuário no Supabase Auth...");
             const { data: authData, error: authError } = await authClient.auth.signUp({
                 email: user.email,
                 password: user.senha,
@@ -142,7 +156,7 @@ export const usersService = {
             });
 
             if (authError) {
-                console.error('Erro no Auth do Supabase:', authError);
+                console.error('Erro no Auth:', authError);
                 if (authError.message.includes('already registered')) {
                     throw new Error('Este e-mail já está registrado no sistema.');
                 }
@@ -150,11 +164,16 @@ export const usersService = {
             }
 
             if (!authData.user) {
-                throw new Error('Falha ao criar usuário no sistema de autenticação.');
+                throw new Error('Falha ao criar usuário no Auth.');
             }
-            
-            console.log('✅ Usuário criado no Auth com sucesso. Criando perfil...', { authUid: authData.user.id });
-            // 3. Preparar dados para inserção
+
+            console.log("✅ Usuário criado no Auth.");
+            console.log("🆔 Auth UID:", authData.user.id);
+
+            // =====================================================
+            // ETAPA 4 - Preparar dados do perfil
+            // =====================================================
+            console.log("📦 Preparando dados do perfil...");
             const insertData: any = {
                 auth_uid: authData.user.id,
                 Nome: user.nome,
@@ -169,19 +188,16 @@ export const usersService = {
             };
 
             // Adicionar campos opcionais apenas se fornecidos
-            if (user.plataforma_id !== undefined && user.plataforma_id !== null) {
-                insertData.Plataforma_ID = user.plataforma_id;
-            }
+            if (user.plataforma_id !== undefined && user.plataforma_id !== null) insertData.Plataforma_ID = user.plataforma_id;
 
-            if (user.escola_id !== undefined && user.escola_id !== null) {
-                insertData.Escola_ID = user.escola_id;
-            }
+            if (user.escola_id !== undefined && user.escola_id !== null) insertData.Escola_ID = user.escola_id;
 
-            if (user.plano_id !== undefined && user.plano_id !== null) {
-                insertData.Plano_ID = user.plano_id;
-            }
+            if (user.plano_id !== undefined && user.plano_id !== null) insertData.Plano_ID = user.plano_id;
 
-            // 4. Inserir na tabela Usuarios
+            // =====================================================
+            // ETAPA 5 - Salvar perfil no banco
+            // =====================================================
+            console.log("💾 Salvando perfil na tabela Usuarios...");
             const { data, error } = await supabase
                 .from('Usuarios')
                 .insert([insertData])
@@ -193,13 +209,15 @@ export const usersService = {
 
                 // Tentar limpar o usuário do Auth se falhar no banco
                 try {
+                    console.log("Removendo usuário do Auth...");
                     await authClient.auth.admin?.deleteUser(authData.user.id);
                 } catch (e) {
-                    console.warn('Não foi possível deletar usuário do Auth:', e);
+                    console.warn('Não foi possível remover usuário do Auth:', e);
                 }
                 throw new Error(`Login criado, mas houve erro no perfil: ${error.message}`);
             }
-            console.log('✅ Perfil criado com sucesso.', { userId: data.Usuario_ID });
+            console.log("[CADASTRO] Usuario concluído com sucesso!");
+            console.log("🆔 ID do usuário:", data.Usuario_ID);
             return data;
         } catch (error: any) {
             console.error('Erro no create:', error);
@@ -209,7 +227,6 @@ export const usersService = {
 
     async update(id: string, user: Partial<UserData>) {
         const { data, error } = await supabase
-        //
             .from('Usuarios')
             .update({
                 Nome: user.nome,

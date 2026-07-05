@@ -19,13 +19,14 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBack, onSucces
     setIsLoading(true);
     setError(null);
     const data = { email };
-    console.log(data);
     
     try {
+      console.log("[RESET] Enviando email de recuperação...");
+      console.log(data);
       const { data: linkReset, error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/reset-password`,
       });
-      console.log(linkReset);
+      console.log("[RESET] Email enviado.", linkReset);
 
       if (resetError) {
         setError(resetError.message);

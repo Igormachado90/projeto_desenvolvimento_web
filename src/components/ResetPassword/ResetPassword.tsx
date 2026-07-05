@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Lock, Loader2, CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
-
 interface ResetPasswordProps {
   onSuccess: () => void;
 }
@@ -35,15 +34,23 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ onSuccess }) => {
     }
 
     try {
+      console.log("[PASSWORD] Alterando senha...");
+
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      console.log("[PASSWORD] Sessão antes:", sessionData.session?.refresh_token);
+
       const { data, error: updateError } = await supabase.auth.updateUser({
         password: password,
       });
-
-      console.log("Data: ", data.user)
+      console.log("[PASSWORD] senha alterada.", data);
+      const { data: sessionAfterData, error: sessionAfterError } = await supabase.auth.getSession();
+      console.log("[PASSWORD] Depois da sessão:", sessionAfterData.session?.refresh_token);
 
       if (updateError) {
         setError(updateError.message);
       } else {
+        console.log("✅ Senha atualizada com sucesso.");
+        console.log("👤 Usuário:", data.user?.email);
         setSuccess(true);
         setTimeout(() => onSuccess(), 3000);
       }
