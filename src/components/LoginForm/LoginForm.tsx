@@ -16,7 +16,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  
+
   // Carregar e-mail salvo se existir
   useEffect(() => {
     const savedEmail = localStorage.getItem('remembered_email');
@@ -31,15 +31,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
     setLoading(true);
     setError(null);
     setError(null);
-    
+
+    console.log("============= LOGIN =============");
     console.log("[LOGIN] Iniciando autenticação...");
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    // console.log("[LOGIN] Informe seus dados:", data);
-    
     if (error) {
       console.error("[LOGIN] Erro:", error.message);
       setError(error.message === 'Invalid login credentials' ? 'E-mail ou senha incorretos.' : error.message);
@@ -47,9 +46,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
     } else {
       // Login sucesso - Gerenciar "Lembre-se"
       console.log("[LOGIN] Usuário:", data.user.email);
-      console.log("[LOGIN] ID do Usuário:", data.user.id);
+      console.log("[LOGIN] Auth UID do Usuário:", data.user.id);
       console.log("[LOGIN] JWT gerado:", data.session?.access_token);
+      console.log("[LOGIN] Refresh Token:", data.session?.refresh_token);
+      console.log("[LOGIN] Expira em:", data.session?.expires_at);
       console.log("[LOGIN] Usuário autenticado com sucesso.");
+
       if (rememberMe) {
         localStorage.setItem('remembered_email', email);
       } else {
@@ -93,7 +95,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
             </button>
           </div>
         </div>
-        
+
         <label className={styles.rememberArea}>
           <input
             type="checkbox"
@@ -106,9 +108,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onForgotPassword }) => {
       </div>
 
       <div>
-        <button 
+        <button
           type="button"
-          className={styles.forgotLink} 
+          className={styles.forgotLink}
           onClick={onForgotPassword}
         >
           esqueci a senha

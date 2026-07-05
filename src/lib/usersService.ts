@@ -167,13 +167,14 @@ export const usersService = {
                 throw new Error('Falha ao criar usuário no Auth.');
             }
 
-            console.log("✅ Usuário criado no Auth.");
-            console.log("🆔 Auth UID:", authData.user.id);
+            console.log("[AUTH] Usuário criado no Auth.");
+            console.log("[AUTH] Auth UID:", authData.user.id);
+            console.log("[AUTH] Email confirmado:", authData.user.email_confirmed_at);
 
             // =====================================================
             // ETAPA 4 - Preparar dados do perfil
             // =====================================================
-            console.log("📦 Preparando dados do perfil...");
+            // console.log("[PERFIL] Preparando dados do perfil...");
             const insertData: any = {
                 auth_uid: authData.user.id,
                 Nome: user.nome,
@@ -197,7 +198,7 @@ export const usersService = {
             // =====================================================
             // ETAPA 5 - Salvar perfil no banco
             // =====================================================
-            console.log("💾 Salvando perfil na tabela Usuarios...");
+            // console.log("[PERFIL] Salvando perfil na tabela Usuarios...");
             const { data, error } = await supabase
                 .from('Usuarios')
                 .insert([insertData])
